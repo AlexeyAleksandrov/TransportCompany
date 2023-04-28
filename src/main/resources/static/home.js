@@ -29,12 +29,20 @@ function sendAuthForm()
     let formData = new FormData(document.forms.loginform);
 
     // добавим ещё одно поле
-    formData.append("middle", "Иванович");
+    // formData.append("middle", "Иванович");
 
     // отправим данные
     let xhr = new XMLHttpRequest();
     xhr.open("POST", "/api/v1/auth");
-    xhr.send(formData);
+    // xhr.send(formData);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send(JSON.stringify(Object.fromEntries(formData)));
 
-    xhr.onload = () => alert(xhr.response);
+    xhr.onload = () => onAuth(xhr.response);
+}
+
+function onAuth(response) {
+    // alert(response);
+    let js = JSON.parse(response);
+    alert(js['auth'] + ' ' + js['userName']);
 }
