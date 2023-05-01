@@ -3,15 +3,14 @@ package ru.transportcompany.application.database.models;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.sql.Time;
-
 @Data
 @EqualsAndHashCode
-public class Schedule
+public class Transport
 {
+
     private long id;
-    private Long point;
-    private Long route;
-    private Time timeStart;
-    private Long transport;
+    private Long transportType;
+    private String govNumber;
+    private String carBrand;
+    private Long driver;
 }

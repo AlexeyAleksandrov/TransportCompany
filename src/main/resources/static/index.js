@@ -85,6 +85,4 @@ function onAuth(response, status) {
         }
         // alert(json['auth'] + ' ' + json['userName']);
     }
-
-
 }

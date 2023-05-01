@@ -1,0 +1,24 @@
+# тест авторизации
+POST http://localhost:8080/api/v1/auth
+Content-Type: application/json
+
+{
+  "login": "111111",
+  "password": "1212121"
+}
+
+###
+
+# добавление водителя в базу данных
+
+POST http://localhost:8080/api/v1/add/driver
+Content-Type: application/json
+
+{
+  "firstName": "Андрей",
+  "lastName": "Иванов",
+  "patronymic": "Петрович"
+}
+
+###
+
