@@ -59,7 +59,7 @@ public class DriversDAO
         {
             preparedStatement.setString(1, driver.getFirstName());
             preparedStatement.setString(2, driver.getLastName());
-            preparedStatement.setString(3, driver.getLastName());
+            preparedStatement.setString(3, driver.getPatronymic());
 
             return preparedStatement.executeUpdate();
         }

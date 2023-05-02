@@ -1,6 +1,7 @@
 package ru.transportcompany.application.api.v1.controllers;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.util.Pair;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.transportcompany.application.database.dao.DriversDAO;
 import ru.transportcompany.application.database.dao.RouteIntervalsDAO;
 import ru.transportcompany.application.database.dao.TransportTypesDAO;
+import ru.transportcompany.application.database.models.AddedResult;
 import ru.transportcompany.application.database.models.Driver;
 import ru.transportcompany.application.database.models.RouteInterval;
 import ru.transportcompany.application.database.models.TransportType;
@@ -25,26 +27,26 @@ public class DataBaseController
             value = "/driver/add",
             produces = "application/json",
             consumes = "application/json")
-    public int addDriver(@RequestBody Driver driver)
+    public AddedResult addDriver(@RequestBody Driver driver)
     {
-        return driversDAO.addDriver(driver);
+        return new AddedResult(driversDAO.addDriver(driver));
     }
 
     @PostMapping(
             value = "/transport_type/add",
             produces = "application/json",
             consumes = "application/json")
-    public int addTransportType(@RequestBody TransportType transportType)
+    public AddedResult addTransportType(@RequestBody TransportType transportType)
     {
-        return transportTypesDAO.addTransportType(transportType);
+        return new AddedResult(transportTypesDAO.addTransportType(transportType));
     }
 
     @PostMapping(
             value = "/route_interval/add",
             produces = "application/json",
             consumes = "application/json")
-    public int addRouteInterval(@RequestBody RouteInterval routeInterval)
+    public AddedResult addRouteInterval(@RequestBody RouteInterval routeInterval)
     {
-        return routeIntervalsDAO.addRouteInterval(routeInterval);
+        return new AddedResult(routeIntervalsDAO.addRouteInterval(routeInterval));
     }
 }
