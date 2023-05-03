@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @EnableCORS
 public class TransportCompanyApplication
 {
-
+    // версия без ORM
     public static void main(String[] args)
     {
         SpringApplication.run(TransportCompanyApplication.class, args);
