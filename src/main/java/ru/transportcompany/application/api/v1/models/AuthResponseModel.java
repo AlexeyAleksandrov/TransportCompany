@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 public class AuthResponseModel
 {
     private boolean isAuth = false;
-    private String userName = "";
+    private String authResult = "";
 }

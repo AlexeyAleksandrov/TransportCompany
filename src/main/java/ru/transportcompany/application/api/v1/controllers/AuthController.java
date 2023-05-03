@@ -14,14 +14,15 @@ public class AuthController
     public String getAuthPage(Model model)
     {
         model.addAttribute("show_auth", true);
-//        model.addAttribute("add_driver", false);
+        model.addAttribute("auth_form", new AuthRequestModel());
         return "home";
     }
 
-    @PostMapping(value = "/auth", produces = "application/json")
-    public AuthResponseModel authUser(@RequestBody AuthRequestModel requestModel)
+    @PostMapping(value = "/auth")
+    public String authUser(@ModelAttribute AuthRequestModel requestModel, Model model)
     {
         System.out.println("Авторизация: " + requestModel.getLogin() + " " + requestModel.getPassword());
-        return new AuthResponseModel(true, requestModel.getLogin());
+        model.addAttribute("auth_result", new AuthResponseModel(true, "Авторизация прошла успешно!"));
+        return "home";
     }
 }

@@ -28,7 +28,6 @@ public class DataBaseController
     @GetMapping("/drivers/add")
     public String getAddDriverPage(Model model)
     {
-//        model.addAttribute("show_auth", false);
         model.addAttribute("add_driver", true);
         model.addAttribute("driver", new Driver());
         return "home";
@@ -40,6 +39,7 @@ public class DataBaseController
         driverRepository.save(driver);
         return "home";
     }
+
 //
 //    @PostMapping(
 //            value = "/driver/get/{id}",
