@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <link media="all" rel="stylesheet" th:href="@{/styles/style.css}" type="text/css"/>
+    <link href="/static/styles/style.css" rel="stylesheet">
+</head>
+<body>
+    <p>
+        <a href="/" class="card btn" style="float: left; margin: 1%; padding: 5px; font-size: 26px; font-weight: bold">Система управления транспортным предприятием</a>
+    </p>
+    <p>
+        <a class="btn btn-primary btn-lg float-end" id="sign_in_button" style="margin-right: 1%" href="/auth">Войти</a>
+    </p>
+    <div style="clear: both"></div>
+
+    <nav style="margin: 1%">
+        <ul id="navbar">
+            <li>
+                <div class="dropdown">
+                    <button class="dropbtn">Водители</button>
+                    <div class="dropdown-content">
+                        <a >Просмотр</a>
+                        <a href="/drivers/add">Добавить</a>
+                        <a >Изменить</a>
+                        <a >Удалить</a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </nav>
+    <main>
+        <div class="card" style="width: 20%; margin-left: auto; margin-right: auto" th:if="${show_auth}">
+            <h2 style="margin-left: auto; margin-right: auto">Авторизация</h2>
+            <div class="card-header">
+                <form name="loginform">
+                    <table>
+                        <tr>
+                            <td style="padding: 3px"><label>Логин:</label></td>
+                            <td style="padding: 3px"><input type="text" id="login" name="login"/></td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 3px"><label>Пароль:</label></td>
+                            <td style="padding: 3px"><input type="password" id="password" name="password"/></td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 3px" colSpan="2"><a class="btn btn-primary" onClick={this.sendAuthForm}>Авторизация</a></td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+
+        <div class="card" style="width: 20%; margin-left: auto; margin-right: auto" th:if="${add_driver}">
+            <h2 style="margin-left: auto; margin-right: auto">Добавление водителя</h2>
+            <div class="card-header">
+                <form name="driver" th:action="@{/drivers/add}" th:object="${driver}" th:method="POST">
+                    <table >
+                        <tr>
+                            <td style="padding: 3px"><label>Имя:</label></td>
+                            <td style="padding: 3px"><input type="text" name="firstName" th:value="*{firstName}"/></td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 3px"><label>Фамилия:</label></td>
+                            <td style="padding: 3px"><input type="text" name="lastName" th:value="*{lastName}"/></td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 3px"><label>Отчество:</label></td>
+                            <td style="padding: 3px"><input type="text" name="patronymic" th:value="*{patronymic}"/></td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 3px" colSpan="2"><input type="submit" class="btn btn-primary"></td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js" integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js" integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ" crossorigin="anonymous"></script>
+</body>
+</html>
