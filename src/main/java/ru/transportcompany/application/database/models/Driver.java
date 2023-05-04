@@ -81,4 +81,9 @@ public class Driver
     {
         return Objects.hash(id, firstName, lastName, patronymic);
     }
+
+    public String getFio()
+    {
+        return lastName + " " + firstName + " " + patronymic;
+    }
 }

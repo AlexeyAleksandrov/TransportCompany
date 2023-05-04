@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head::head"></head>
+<body>
+<header th:replace="fragments/header::header"></header>
+<nav th:replace="fragments/navbar::nav"></nav>
+<main>
+    <div class="clear"></div>
+
+    <div class="card input_block_big">
+        <h2 class="input_header">Добавление транспорта</h2>
+        <div class="card-header">
+            <!--/*@thymesVar id="transport" type="ru.transportcompany.application.database.models.Transport"*/-->
+            <form name="driver" th:action="@{/transport/add}" th:object="${transport}" th:method="POST">
+                <table >
+                    <tr>
+                        <td class="td_input"><label>Тип транспорта:</label></td>
+                        <td class="td_input">
+                            <select th:if="${#lists.size(transport_types) > 0}" th:field="${transport.transportType}" size="1">
+                                <!--/*@thymesVar id="t" type="ru.transportcompany.application.database.models.TransportType"*/-->
+                                <option th:each="t: ${transport_types}" th:text="${t.name}" th:value="${t.id}"></option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td_input"><label>Гос. Номер:</label></td>
+                        <td class="td_input"><input type="text" th:field="${transport.govNumber}" th:value="${transport.govNumber}"></td>
+                    </tr>
+                    <tr>
+                        <td class="td_input"><label>Марка:</label></td>
+                        <td class="td_input"><input type="text" th:field="${transport.carBrand}" th:value="${transport.carBrand}"></td>
+                    </tr>
+                    <tr>
+                        <td class="td_input"><label>Кол-во мест:</label></td>
+                        <td class="td_input"><input type="number" th:field="${transport.seatsCount}" th:value="${transport.seatsCount}"></td>
+                    </tr>
+                    <tr>
+                        <td class="td_input"><label>Тип транспорта:</label></td>
+                        <td class="td_input">
+                            <select th:if="${#lists.size(drivers) > 0}" th:field="${transport.driver}" size="1">
+                                <option th:each="d: ${drivers}" th:text="${d.getFio()}" th:value="${d.id}"></option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td_input" colSpan="2"><input type="submit" class="btn btn-primary" value="Добавить"></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js" integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js" integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ" crossorigin="anonymous"></script>
+</body>
+</html>

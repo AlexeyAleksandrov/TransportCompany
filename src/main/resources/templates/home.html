@@ -14,6 +14,8 @@
         <ul id="navbar">
             <li th:replace="fragments/navbar::element (${'Водители'}, @{/drivers/show}, @{/drivers/add}, @{/drivers/edit}, @{/drivers/delete})"></li>
             <li th:replace="fragments/navbar::element (${'Виды транспорта'}, @{/transport_types/show}, @{/transport_types/add}, @{/transport_types/edit}, @{/transport_types/delete})"></li>
+            <li th:replace="fragments/navbar::element (${'Транспорт'}, @{/transport/show}, @{/transport/add}, @{/transport/edit}, @{/transport/delete})"></li>
+            <li th:replace="fragments/navbar::element (${'Точки маршрутов'}, @{/transport_types/show}, @{/transport_types/add}, @{/transport_types/edit}, @{/transport_types/delete})"></li>
         </ul>
     </nav>
     <main>
@@ -84,6 +86,35 @@
         <!-- удаление -->
         <div th:if="${deleteTransportType}">
             <div th:replace="fragments/transport_types/delete::delete_transport_type(${transport_types})"></div>
+        </div>
+
+        <!------------------------------------------------------------------------------------------------------------>
+        <!-- блок транспорта предприятия -->
+        <!------------------------------------------------------------------------------------------------------------>
+
+        <!-- вывод всех -->
+        <div th:if="${show_transport}">
+            <div th:replace="fragments/transports/show::show_all(${transports})"></div>
+        </div>
+
+        <!-- добавление -->
+        <div th:if="${add_transport}">
+            <div th:replace="fragments/transports/add::add_transport(${transport_types}, ${drivers})"></div>
+        </div>
+
+        <!-- изменение -->
+        <div th:if="${edit_transport}">
+            <div th:replace="fragments/transports/edit::choseList(${transport})"></div>
+        </div>
+
+        <!-- изменение по id -->
+        <div th:if="${edit_transport_by_id}">
+            <div th:replace="fragments/transports/edit::byId(${transport_types}, ${drivers})"></div>
+        </div>
+
+        <!-- удаление -->
+        <div th:if="${delete_drivers}">
+            <div th:replace="fragments/transports/delete::delete_transport(${transport})"></div>
         </div>
     </main>
 

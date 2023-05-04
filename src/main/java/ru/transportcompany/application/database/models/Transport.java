@@ -11,9 +11,13 @@ public class Transport
     @Id
     @Column(name = "id")
     private Long id;
-    @Basic
-    @Column(name = "transport_type")
-    private Long transportType;
+//    @Basic
+//    @Column(name = "transport_type")
+//    private Long transportType;
+    @ManyToOne
+    @JoinColumn(name = "transport_type")
+    private TransportType transportType;
+
     @Basic
     @Column(name = "gov_number")
     private String govNumber;
@@ -23,9 +27,13 @@ public class Transport
     @Basic
     @Column(name = "seats_count")
     private Integer seatsCount;
-    @Basic
-    @Column(name = "driver")
-    private Long driver;
+//    @Basic
+//    @Column(name = "driver")
+//    private Long driver;
+
+    @OneToOne
+    @JoinColumn(name = "driver")
+    private Driver driver;
 
     public Long getId()
     {
@@ -37,12 +45,12 @@ public class Transport
         this.id = id;
     }
 
-    public Long getTransportType()
+    public TransportType getTransportType()
     {
         return transportType;
     }
 
-    public void setTransportType(Long transportType)
+    public void setTransportType(TransportType transportType)
     {
         this.transportType = transportType;
     }
@@ -77,15 +85,36 @@ public class Transport
         this.seatsCount = seatsCount;
     }
 
-    public Long getDriver()
+    public Driver getDriver()
     {
         return driver;
     }
 
-    public void setDriver(Long driver)
+    public void setDriver(Driver driver)
     {
         this.driver = driver;
     }
+
+
+//    public Long getTransportType()
+//    {
+//        return transportType;
+//    }
+//
+//    public void setTransportType(Long transportType)
+//    {
+//        this.transportType = transportType;
+//    }
+
+//    public Long getDriver()
+//    {
+//        return driver;
+//    }
+//
+//    public void setDriver(Long driver)
+//    {
+//        this.driver = driver;
+//    }
 
     @Override
     public boolean equals(Object o)
