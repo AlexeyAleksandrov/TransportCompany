@@ -1,3 +1,48 @@
+/* my styles */
+
+#logo {
+    float: left;
+    margin: 1%;
+    padding: 5px;
+    font-size: 26px;
+    font-weight: bold;
+}
+
+#sign_in_button {
+    margin-right: 1%;
+}
+
+.clear {
+    clear: both;
+}
+
+nav {
+    margin: 1%;
+}
+
+.input_block {
+    width: 20%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.td_input {
+    padding: 3px;
+}
+
+.input_header {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.edit_block {
+    width: 25%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* other styles */
+
 /* Dropdown Button */
 .dropbtn {
     background-color: #0D6EFD;

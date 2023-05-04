@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="form(action, auth_form)">
+    <div class="card input_block">
+        <h2 class="input_header">Авторизация</h2>
+        <div class="card-header">
+            <!--/*@thymesVar id="auth_form" type="ru.transportcompany.application.api.v1.models.AuthRequestModel"*/-->
+            <form name="loginform" th:action="${action}" th:method="POST" th:object="${auth_form}">
+                <table>
+                    <tr>
+                        <td class="td_input"><label for="login">Логин:</label></td>
+                        <td class="td_input">
+                        <input type="text" id="login" name="login" th:field="*{login}" th:value="*{login}"/></td>
+                    </tr>
+                    <tr>
+                        <td class="td_input"><label for="password">Пароль:</label></td>
+                        <td class="td_input"><input type="password" id="password" name="password" th:field="*{password}" th:value="*{password}"/></td>
+                    </tr>
+                    <tr>
+                        <td class="td_input" colSpan="2"><input type="submit" class="btn btn-primary" value="Авторизация"></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

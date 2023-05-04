@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="show_all(drivers)">
+    <div class="card input_block" th:object="${drivers}">
+        <h2 class="input_header">Список водителей</h2>
+        <div class="card-header">
+            <table th:if="${#lists.size(drivers) > 0}">
+                <tr>
+                    <th class="td_input">Имя</th>
+                    <th class="td_input">Фамилия</th>
+                    <th class="td_input">Отчество</th>
+                </tr>
+                <!--/*@thymesVar id="d" type="ru.transportcompany.application.database.models.Driver"*/-->
+                <tr th:each="d : ${drivers}">
+                    <td th:text="${d.lastName}" class="td_input"></td>
+                    <td th:text="${d.firstName}" class="td_input"></td>
+                    <td th:text="${d.patronymic}" class="td_input"></td>
+                </tr>
+            </table>
+            <p th:if="${#lists.size(drivers) == 0}">На предприятии отсутствуют водители!</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

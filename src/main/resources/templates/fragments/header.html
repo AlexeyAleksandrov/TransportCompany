@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="header">
+    <p>
+        <a href="/" class="card btn" id="logo">Система управления транспортным предприятием</a>
+    </p>
+    <p>
+        <a class="btn btn-primary btn-lg float-end" id="sign_in_button" th:href="@{/auth}">Войти</a>
+    </p>
+    <div class="clear"></div>
+</div>
+</body>
+</html>

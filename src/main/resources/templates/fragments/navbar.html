@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="element (btn_text, show_link, add_link, edit_link, delete_link)">
+    <li>
+        <div class="dropdown">
+            <button class="dropbtn" th:text="${btn_text}"></button>
+            <div class="dropdown-content">
+                <a th:href="${show_link}">Просмотр</a>
+                <a th:href="${add_link}">Добавить</a>
+                <a th:href="${edit_link}">Изменить</a>
+                <a th:href="${delete_link}">Удалить</a>
+            </div>
+        </div>
+    </li>
+</div>
+</body>
+</html>

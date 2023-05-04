@@ -17,28 +17,13 @@ import java.util.List;
 @AllArgsConstructor
 public class DataBaseController
 {
-    DriverRepository driverRepository;
+
     EndPointRepository endPointRepository;
     RouteIntervalRepository routeIntervalRepository;
     RouteRepository routeRepository;
     ScheduleRepository scheduleRepository;
     TransportRepository transportRepository;
     TransportTypeRepository transportTypeRepository;
-
-    @GetMapping("/drivers/add")
-    public String getAddDriverPage(Model model)
-    {
-        model.addAttribute("add_driver", true);
-        model.addAttribute("driver", new Driver());
-        return "home";
-    }
-
-    @PostMapping(value = "/drivers/add")
-    public String addDriver(@ModelAttribute Driver driver)
-    {
-        driverRepository.save(driver);
-        return "home";
-    }
 
 //
 //    @PostMapping(
