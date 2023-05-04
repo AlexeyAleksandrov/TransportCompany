@@ -1,7 +1,6 @@
-package ru.transportcompany.application.api.v1.controllers;
+package ru.transportcompany.application.controllers;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller

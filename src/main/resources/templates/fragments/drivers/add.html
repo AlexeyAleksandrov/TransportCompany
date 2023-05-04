@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
 <div th:fragment="add_driver">
-    <div class="card input_block">
+    <div class="card edit_block_big">
         <h2 class="input_header">Добавление водителя</h2>
         <div class="card-header">
             <!--/*@thymesVar id="driver" type="ru.transportcompany.application.database.models.Driver"*/-->
@@ -14,14 +14,14 @@
                     </tr>
                     <tr>
                         <td class="td_input"><label for="lastName">Фамилия:</label></td>
-                        <td class="td_input"><input type="text" id="lastName" name="lastName" th:field="*{lastName}"  th:value="*{lastName}"/></td>
+                        <td class="td_input"><input type="text" id="lastName" name="lastName" th:field="*{lastName}" th:value="*{lastName}"/></td>
                     </tr>
                     <tr>
                         <td class="td_input"><label for="patronymic">Отчество:</label></td>
                         <td class="td_input"><input type="text" id="patronymic" name="patronymic" th:field="*{patronymic}"  th:value="*{patronymic}"/></td>
                     </tr>
                     <tr>
-                        <td class="td_input" colSpan="2"><input type="submit" class="btn btn-primary"></td>
+                        <td class="td_input" colSpan="2"><input type="submit" class="btn btn-primary" value="Добавить"></td>
                     </tr>
                 </table>
             </form>

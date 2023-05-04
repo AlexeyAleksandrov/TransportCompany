@@ -1,13 +1,12 @@
-package ru.transportcompany.application.api.v1.controllers;
+package ru.transportcompany.application.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.transportcompany.application.api.v1.models.AuthRequestModel;
-import ru.transportcompany.application.api.v1.models.AuthResponseModel;
+import ru.transportcompany.application.models.AuthRequestModel;
+import ru.transportcompany.application.models.AuthResponseModel;
 
 @Controller
-//@RequestMapping("/api/v1")
 public class AuthController
 {
     @GetMapping(value = "/auth")

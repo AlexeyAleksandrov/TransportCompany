@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="show_all(transport_types)">
+    <div class="card input_block_big" th:object="${transport_types}">
+        <h2 class="input_header">Список видов транспорта</h2>
+        <div class="card-header">
+            <table th:if="${#lists.size(transport_types) > 0}">
+                <tr>
+                    <th class="td_input">Название вида транспорта</th>
+                </tr>
+                <!--/*@thymesVar id="t" type="ru.transportcompany.application.database.models.TransportType"*/-->
+                <tr th:each="t : ${transport_types}">
+                    <td th:text="${t.name}" class="td_input"></td>
+                </tr>
+            </table>
+            <p th:if="${#lists.size(transport_types) == 0}">На предприятии отсутствуют виды транспортных средств!</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

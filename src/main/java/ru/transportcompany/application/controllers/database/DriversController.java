@@ -1,4 +1,4 @@
-package ru.transportcompany.application.api.v1.controllers.database;
+package ru.transportcompany.application.controllers.database;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -29,10 +29,10 @@ public class DriversController
     public String addDriver(@ModelAttribute Driver driver)
     {
         driverRepository.save(driver);
-        return "redirect:/drivers/get/all";
+        return "redirect:/drivers/show";
     }
 
-    @GetMapping(value = "/get/all")
+    @GetMapping(value = "/show")
     public String getAllDrivers(Model model)
     {
         model.addAttribute("show_all_drivers", true);

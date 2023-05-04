@@ -26,6 +26,12 @@ nav {
     margin-right: auto;
 }
 
+.input_block_big {
+    width: 25%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .td_input {
     padding: 3px;
 }
@@ -37,6 +43,12 @@ nav {
 
 .edit_block {
     width: 25%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.edit_block_big {
+    width: 30%;
     margin-left: auto;
     margin-right: auto;
 }
@@ -85,9 +97,24 @@ nav {
 /* Change the background color of the dropdown button when the dropdown content is shown */
 .dropdown:hover .dropbtn {background-color: #0a53be;}
 
-#navbar {
+/*#navbar {*/
+/*    margin: 0;*/
+/*    padding: 0;*/
+/*    list-style-type: none;*/
+/*}*/
+/*#navbar li { display: inline; }*/
+
+#navbar li:hover ul { display: block; }
+#navbar, #navbar ul {
     margin: 0;
     padding: 0;
     list-style-type: none;
 }
-#navbar li { display: inline; }
+#navbar { height: 30px; }
+#navbar li {
+    float: left;
+    position: relative;
+}
+#navbar ul li { float: none; }
+
+

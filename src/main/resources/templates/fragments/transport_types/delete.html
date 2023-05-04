@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="delete_transport_type(transport_types)">
+    <div class="card edit_block_big">
+        <h2 class="input_header">Удаление вида транспорта</h2>
+        <div class="card-header">
+            <table th:if="${#lists.size(transport_types) > 0}">
+                <tr>
+                    <th class="td_input">Название</th>
+                </tr>
+                <!--/*@thymesVar id="t" type="ru.transportcompany.application.database.models.TransportType"*/-->
+                <tr th:each="t : ${transport_types}">
+                    <td th:text="${t.name}" class="td_input">Троллейбус</td>
+                    <td><a th:href="@{'/transport_types/delete/' + ${t.id}}" class="btn btn-danger">Удалить</a></td>
+                </tr>
+            </table>
+            <p th:if="${#lists.size(transport_types) == 0}">На предприятии отсутствуют виды транспорта!</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

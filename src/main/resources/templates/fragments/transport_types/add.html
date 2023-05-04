@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="add_transport_type">
+    <div class="card input_block_big">
+        <h2 class="input_header">Добавление вида транспорта</h2>
+        <div class="card-header">
+            <!--/*@thymesVar id="transportType" type="ru.transportcompany.application.database.models.TransportType"*/-->
+            <form name="driver" th:action="@{/transport_types/add}" th:object="${transportType}" th:method="POST">
+                <table >
+                    <tr>
+                        <td class="td_input"><label for="firstName">Название:</label></td>
+                        <td class="td_input"><input type="text" id="firstName" name="firstName" th:field="${transportType.name}" th:value="${transportType.name}"/></td>
+                    </tr>
+                    <tr>
+                        <td class="td_input" colSpan="2"><input type="submit" class="btn btn-primary" value="Добавить"></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
