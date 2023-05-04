@@ -8,7 +8,7 @@ import ru.transportcompany.application.database.models.TransportType;
 import ru.transportcompany.application.database.repositories.TransportTypeRepository;
 
 @Controller
-@RequestMapping(value = "/transport_types")
+@RequestMapping(value = "/transport/types")
 @AllArgsConstructor
 public class TransportTypesController
 {
@@ -17,9 +17,8 @@ public class TransportTypesController
     @GetMapping(value = "/show")
     public String getShowPage(Model model)
     {
-        model.addAttribute("showTransportTypes", true);
         model.addAttribute("transport_types", transportTypeRepository.findAll());
-        return "home";
+        return "transport_types/show";
     }
 
     @GetMapping(value = "/add")
@@ -27,14 +26,14 @@ public class TransportTypesController
     {
         model.addAttribute("addTransportType", true);
         model.addAttribute("transportType", new TransportType());
-        return "home";
+        return "transport_types/add";
     }
 
     @PostMapping(value = "/add")
     public String addTransportType(@ModelAttribute TransportType transportType)
     {
         transportTypeRepository.save(transportType);
-        return "redirect:/transport_types/show";
+        return "redirect:/transport/types/show";
     }
 
     @GetMapping(value = "/edit")
@@ -42,7 +41,7 @@ public class TransportTypesController
     {
         model.addAttribute("editTransportTypes", true);
         model.addAttribute("transport_types", transportTypeRepository.findAll());
-        return "home";
+        return "transport_types/edit";
     }
 
     @GetMapping(value = "/edit/{id}")
@@ -50,7 +49,7 @@ public class TransportTypesController
     {
         model.addAttribute("editTransportTypeById", true);
         model.addAttribute("transport_type", transportTypeRepository.findById(id).orElse(new TransportType()));
-        return "home";
+        return "transport_types/edit_item";
     }
 
     @PostMapping(value = "/edit/{id}")
@@ -58,7 +57,7 @@ public class TransportTypesController
     {
         transportType.setId(id);
         transportTypeRepository.save(transportType);
-        return "redirect:/transport_types/edit";
+        return "redirect:/transport/types/edit";
     }
 
     @GetMapping(value = "/delete")
@@ -66,13 +65,13 @@ public class TransportTypesController
     {
         model.addAttribute("deleteTransportType", true);
         model.addAttribute("transport_types", transportTypeRepository.findAll());
-        return "home";
+        return "transport_types/delete";
     }
 
     @GetMapping(value = "/delete/{id}")
     public String deleteById(@PathVariable Long id)
     {
         transportTypeRepository.deleteById(id);
-        return "redirect:/transport_types/delete";
+        return "redirect:/transport/types/delete";
     }
 }

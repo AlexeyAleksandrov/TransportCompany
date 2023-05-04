@@ -22,7 +22,7 @@ public class DriversController
     {
         model.addAttribute("add_driver", true);
         model.addAttribute("driver", new Driver());
-        return "home";
+        return "drivers/add";
     }
 
     @PostMapping(value = "/add")
@@ -37,7 +37,7 @@ public class DriversController
     {
         model.addAttribute("show_all_drivers", true);
         model.addAttribute("drivers", driverRepository.findAll().stream().sorted(Comparator.comparingLong(Driver::getId)).collect(Collectors.toList()));
-        return "home";
+        return "drivers/show";
     }
 
     @GetMapping(value = "/edit")
@@ -45,7 +45,7 @@ public class DriversController
     {
         model.addAttribute("edit_drivers", true);
         model.addAttribute("drivers", driverRepository.findAll().stream().sorted(Comparator.comparingLong(Driver::getId)).collect(Collectors.toList()));
-        return "home";
+        return "drivers/edit";
     }
 
     @GetMapping(value = "/edit/{id}")
@@ -53,7 +53,7 @@ public class DriversController
     {
         model.addAttribute("edit_driver_by_id", true);
         model.addAttribute("driver", driverRepository.findById(id).orElse(new Driver()));
-        return "home";
+        return "drivers/edit_item";
     }
 
     @PostMapping(value = "/edit/{id}")
@@ -69,7 +69,7 @@ public class DriversController
     {
         model.addAttribute("delete_drivers", true);
         model.addAttribute("drivers", driverRepository.findAll().stream().sorted(Comparator.comparingLong(Driver::getId)).collect(Collectors.toList()));
-        return "home";
+        return "drivers/delete";
     }
 
     @GetMapping(value = "/delete/{id}")

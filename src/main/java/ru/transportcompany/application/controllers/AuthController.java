@@ -12,9 +12,8 @@ public class AuthController
     @GetMapping(value = "/auth")
     public String getAuthPage(Model model)
     {
-        model.addAttribute("show_auth", true);
         model.addAttribute("auth_form", new AuthRequestModel());
-        return "home";
+        return "auth/auth";
     }
 
     @PostMapping(value = "/auth")

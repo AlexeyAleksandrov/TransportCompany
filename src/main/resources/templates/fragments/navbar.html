@@ -18,9 +18,9 @@
     <nav>
         <ul id="navbar">
             <li th:replace="fragments/navbar::element (${'Водители'}, @{/drivers/show}, @{/drivers/add}, @{/drivers/edit}, @{/drivers/delete})"></li>
-            <li th:replace="fragments/navbar::element (${'Виды транспорта'}, @{/transport_types/show}, @{/transport_types/add}, @{/transport_types/edit}, @{/transport_types/delete})"></li>
+            <li th:replace="fragments/navbar::element (${'Виды транспорта'}, @{/transport/types/show}, @{/transport/types/add}, @{/transport/types/edit}, @{/transport/types/delete})"></li>
             <li th:replace="fragments/navbar::element (${'Транспорт'}, @{/transport/show}, @{/transport/add}, @{/transport/edit}, @{/transport/delete})"></li>
-            <li th:replace="fragments/navbar::element (${'Точки маршрутов'}, @{/transport_types/show}, @{/transport_types/add}, @{/transport_types/edit}, @{/transport_types/delete})"></li>
+<!--            <li th:replace="fragments/navbar::element (${'Точки маршрутов'}, @{/transport_types/show}, @{/transport_types/add}, @{/transport_types/edit}, @{/transport_types/delete})"></li>-->
         </ul>
     </nav>
 </div>
