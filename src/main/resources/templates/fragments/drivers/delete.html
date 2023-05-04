@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="delete_driver(drivers)">
+    <div class="card edit_block">
+        <h2 class="input_header">Удаление водителя</h2>
+        <div class="card-header">
+            <table th:if="${#lists.size(drivers) > 0}">
+                <tr>
+                    <th class="td_input">Имя</th>
+                    <th class="td_input">Фамилия</th>
+                    <th class="td_input">Отчество</th>
+                    <th class="td_input">Удалить</th>
+                </tr>
+                <!--/*@thymesVar id="d" type="ru.transportcompany.application.database.models.Driver"*/-->
+                <tr th:each="d : ${drivers}">
+                    <!--/*@thymesVar id="d" type="ru.transportcompany.application.database.models.Driver"*/-->
+                    <td th:text="${d.lastName}" class="td_input">Подорожников</td>
+                    <td th:text="${d.firstName}" class="td_input">Иван</td>
+                    <td th:text="${d.patronymic}" class="td_input">Подорожников</td>
+                    <td><a th:href="@{'/drivers/delete/' + ${d.id}}" class="btn btn-danger">Удалить</a></td>
+                </tr>
+            </table>
+            <p th:if="${#lists.size(drivers) == 0}">На предприятии отсутствуют водители!</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

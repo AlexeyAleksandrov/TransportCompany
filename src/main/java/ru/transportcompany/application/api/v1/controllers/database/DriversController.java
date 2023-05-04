@@ -29,7 +29,7 @@ public class DriversController
     public String addDriver(@ModelAttribute Driver driver)
     {
         driverRepository.save(driver);
-        return "home";
+        return "redirect:/drivers/get/all";
     }
 
     @GetMapping(value = "/get/all")
@@ -59,9 +59,23 @@ public class DriversController
     @PostMapping(value = "/edit/{id}")
     public String editDriverById(@PathVariable Long id, @ModelAttribute Driver driver)
     {
-        System.out.println("edit id = " + driver.getId());
         driver.setId(id);
         driverRepository.save(driver);
         return "redirect:/drivers/edit";
+    }
+
+    @GetMapping(value = "/delete")
+    public String getDeleteDrivers(Model model)
+    {
+        model.addAttribute("delete_drivers", true);
+        model.addAttribute("drivers", driverRepository.findAll().stream().sorted(Comparator.comparingLong(Driver::getId)).collect(Collectors.toList()));
+        return "home";
+    }
+
+    @GetMapping(value = "/delete/{id}")
+    public String deleteDriverById(@PathVariable Long id)
+    {
+        driverRepository.deleteById(id);
+        return "redirect:/drivers/delete";
     }
 }
