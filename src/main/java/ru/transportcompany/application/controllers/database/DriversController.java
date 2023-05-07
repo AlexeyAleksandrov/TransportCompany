@@ -4,8 +4,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.transportcompany.application.database.models.Driver;
-import ru.transportcompany.application.database.repositories.DriverRepository;
+import ru.transportcompany.application.models.database.Driver;
+import ru.transportcompany.application.repositories.DriverRepository;
 
 import java.util.Comparator;
 import java.util.stream.Collectors;

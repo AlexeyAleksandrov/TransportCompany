@@ -1,7 +1,7 @@
-package ru.transportcompany.application.database.repositories;
+package ru.transportcompany.application.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import ru.transportcompany.application.database.models.TransportType;
+import ru.transportcompany.application.models.database.TransportType;
 
 public interface TransportTypeRepository extends JpaRepository<TransportType, Long>
 {}

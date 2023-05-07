@@ -1,4 +1,4 @@
-package ru.transportcompany.application.database.models;
+package ru.transportcompany.application.models.database;
 
 import javax.persistence.*;
 import java.util.Objects;

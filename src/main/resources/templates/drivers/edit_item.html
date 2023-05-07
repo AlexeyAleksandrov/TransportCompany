@@ -10,7 +10,7 @@
     <div class="card input_block">
         <h2 class="input_header">Изменение водителя</h2>
         <div class="card-header">
-            <!--/*@thymesVar id="driver" type="ru.transportcompany.application.database.models.Driver"*/-->
+            <!--/*@thymesVar id="driver" type="ru.transportcompany.application.models.database.Driver"*/-->
             <form name="driver" th:action="@{'/drivers/edit/' + ${driver.id}}" th:object="${driver}" th:method="POST">
                 <table >
                     <tr>

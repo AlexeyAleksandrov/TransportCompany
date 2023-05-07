@@ -14,7 +14,7 @@
                 <tr>
                     <th class="td_input">Название</th>
                 </tr>
-                <!--/*@thymesVar id="t" type="ru.transportcompany.application.database.models.TransportType"*/-->
+                <!--/*@thymesVar id="t" type="ru.transportcompany.application.models.database.TransportType"*/-->
                 <tr th:each="t: ${transport_types}">
                     <td th:text="${t.name}" class="td_input">Троллейбус</td>
                     <td><a th:href="@{'/transport/types/delete/' + ${t.id}}" class="btn btn-danger">Удалить</a></td>

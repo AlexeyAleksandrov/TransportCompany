@@ -4,10 +4,10 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.transportcompany.application.database.models.Transport;
-import ru.transportcompany.application.database.repositories.DriverRepository;
-import ru.transportcompany.application.database.repositories.TransportRepository;
-import ru.transportcompany.application.database.repositories.TransportTypeRepository;
+import ru.transportcompany.application.models.database.Transport;
+import ru.transportcompany.application.repositories.DriverRepository;
+import ru.transportcompany.application.repositories.TransportRepository;
+import ru.transportcompany.application.repositories.TransportTypeRepository;
 
 @Controller
 @RequestMapping(value = "/transport")

@@ -16,7 +16,7 @@
                     <th class="td_input">Фамилия</th>
                     <th class="td_input">Отчество</th>
                 </tr>
-                <!--/*@thymesVar id="d" type="ru.transportcompany.application.database.models.Driver"*/-->
+                <!--/*@thymesVar id="d" type="ru.transportcompany.application.models.database.Driver"*/-->
                 <tr th:each="d : ${drivers}">
                     <td th:text="${d.lastName}" class="td_input"></td>
                     <td th:text="${d.firstName}" class="td_input"></td>

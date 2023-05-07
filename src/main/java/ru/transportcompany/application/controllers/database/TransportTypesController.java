@@ -4,8 +4,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.transportcompany.application.database.models.TransportType;
-import ru.transportcompany.application.database.repositories.TransportTypeRepository;
+import ru.transportcompany.application.models.database.TransportType;
+import ru.transportcompany.application.repositories.TransportTypeRepository;
 
 @Controller
 @RequestMapping(value = "/transport/types")

@@ -1,19 +1,19 @@
-package ru.transportcompany.application.database.models;
+package ru.transportcompany.application.models.database;
 
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "end_points", schema = "public", catalog = "transport_company")
-public class EndPoint
+@Table(name = "route_intervals", schema = "public", catalog = "transport_company")
+public class RouteInterval
 {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
     private Long id;
     @Basic
-    @Column(name = "point_name")
-    private String pointName;
+    @Column(name = "interval_name")
+    private String intervalName;
 
     public Long getId()
     {
@@ -25,14 +25,14 @@ public class EndPoint
         this.id = id;
     }
 
-    public String getPointName()
+    public String getIntervalName()
     {
-        return pointName;
+        return intervalName;
     }
 
-    public void setPointName(String pointName)
+    public void setIntervalName(String intervalName)
     {
-        this.pointName = pointName;
+        this.intervalName = intervalName;
     }
 
     @Override
@@ -46,13 +46,13 @@ public class EndPoint
         {
             return false;
         }
-        EndPoint endPoint = (EndPoint) o;
-        return Objects.equals(id, endPoint.id) && Objects.equals(pointName, endPoint.pointName);
+        RouteInterval that = (RouteInterval) o;
+        return Objects.equals(id, that.id) && Objects.equals(intervalName, that.intervalName);
     }
 
     @Override
     public int hashCode()
     {
-        return Objects.hash(id, pointName);
+        return Objects.hash(id, intervalName);
     }
 }

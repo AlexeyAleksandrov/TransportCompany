@@ -17,9 +17,9 @@
                     <th class="td_input">Отчество</th>
                     <th class="td_input">Удалить</th>
                 </tr>
-                <!--/*@thymesVar id="d" type="ru.transportcompany.application.database.models.Driver"*/-->
+                <!--/*@thymesVar id="d" type="ru.transportcompany.application.models.database.Driver"*/-->
                 <tr th:each="d : ${drivers}">
-                    <!--/*@thymesVar id="d" type="ru.transportcompany.application.database.models.Driver"*/-->
+                    <!--/*@thymesVar id="d" type="ru.transportcompany.application.models.database.Driver"*/-->
                     <td th:text="${d.lastName}" class="td_input">Подорожников</td>
                     <td th:text="${d.firstName}" class="td_input">Иван</td>
                     <td th:text="${d.patronymic}" class="td_input">Подорожников</td>

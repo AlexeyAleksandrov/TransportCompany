@@ -18,7 +18,7 @@
                     <th class="td_input">Водитель</th>
                 </tr>
                 <tr th:each="t : ${transports}">
-                    <!--/*@thymesVar id="t" type="ru.transportcompany.application.database.models.Transport"*/-->
+                    <!--/*@thymesVar id="t" type="ru.transportcompany.application.models.database.Transport"*/-->
                     <td th:text="${t.transportType.name}" class="td_input">Тип транспорта</td>
                     <td th:text="${t.govNumber}" class="td_input">Гос. Номер</td>
                     <td th:text="${t.carBrand}" class="td_input">Марка т/с</td>

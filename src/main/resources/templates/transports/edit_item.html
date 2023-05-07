@@ -10,14 +10,14 @@
     <div class="card input_block_big">
         <h2 class="input_header">Изменение транспорта</h2>
         <div class="card-header">
-            <!--/*@thymesVar id="transport" type="ru.transportcompany.application.database.models.Transport"*/-->
+            <!--/*@thymesVar id="transport" type="ru.transportcompany.application.models.database.Transport"*/-->
             <form name="driver" th:action="@{'/transport/edit/' + ${transport.id}}" th:object="${transport}" th:method="POST">
                 <table >
                     <tr>
                         <td class="td_input"><label>Тип транспорта:</label></td>
                         <td class="td_input">
                             <select th:if="${#lists.size(transport_types) > 0}" th:field="${transport.transportType.id}" size="1">
-                                <!--/*@thymesVar id="t" type="ru.transportcompany.application.database.models.TransportType"*/-->
+                                <!--/*@thymesVar id="t" type="ru.transportcompany.application.models.database.TransportType"*/-->
                                 <option th:each="t: ${transport_types}" th:text="${t.name}" th:value="${t.id}"></option>
                             </select>
                         </td>
@@ -38,7 +38,7 @@
                         <td class="td_input"><label>Тип транспорта:</label></td>
                         <td class="td_input">
                             <select th:if="${#lists.size(drivers) > 0}" th:field="${transport.driver.id}" size="1">
-                                <!--/*@thymesVar id="d" type="ru.transportcompany.application.database.models.Driver"*/-->
+                                <!--/*@thymesVar id="d" type="ru.transportcompany.application.models.database.Driver"*/-->
                                 <option th:each="d : ${drivers}" th:text="${d.lastName + ' ' + d.firstName + ' ' + d.patronymic}" th:value="${d.id}"></option>
                             </select>
                         </td>

@@ -16,7 +16,7 @@
                     <th class="td_input">Редактировать</th>
                 </tr>
                 <tr th:each="t : ${transport_types}">
-                    <!--/*@thymesVar id="t" type="ru.transportcompany.application.database.models.TransportType"*/-->
+                    <!--/*@thymesVar id="t" type="ru.transportcompany.application.models.database.TransportType"*/-->
                     <td th:text="${t.name}" class="td_input">Троллейбус</td>
                     <td><a th:href="@{'/transport/types/edit/' + ${t.id}}" class="btn btn-primary">Редактировать</a></td>
                 </tr>

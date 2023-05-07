@@ -10,8 +10,8 @@
     <div class="card input_block_big">
         <h2 class="input_header">Изменение вида транспорта</h2>
         <div class="card-header">
-            <!--/*@thymesVar id="transport_type" type="ru.transportcompany.application.database.models.TransportType"*/-->
-            <!--/*@thymesVar id="transportType" type="ru.transportcompany.application.database.models.TransportType"*/-->
+            <!--/*@thymesVar id="transport_type" type="ru.transportcompany.application.models.database.TransportType"*/-->
+            <!--/*@thymesVar id="transportType" type="ru.transportcompany.application.models.database.TransportType"*/-->
             <form name="driver" th:action="@{'/transport/types/edit/' + ${transport_type.id}}" th:object="${transport_type}" th:method="POST">
                 <table >
                     <tr>
