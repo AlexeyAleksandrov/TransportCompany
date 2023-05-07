@@ -24,7 +24,6 @@ public class TransportTypesController
     @GetMapping(value = "/add")
     public String getAddTransportTypePage(Model model)
     {
-        model.addAttribute("addTransportType", true);
         model.addAttribute("transportType", new TransportType());
         return "transport_types/add";
     }
@@ -39,7 +38,6 @@ public class TransportTypesController
     @GetMapping(value = "/edit")
     public String getEditTransportType(Model model)
     {
-        model.addAttribute("editTransportTypes", true);
         model.addAttribute("transport_types", transportTypeRepository.findAll());
         return "transport_types/edit";
     }
@@ -47,7 +45,6 @@ public class TransportTypesController
     @GetMapping(value = "/edit/{id}")
     public String getEditTransportTypeById(@PathVariable Long id, Model model)
     {
-        model.addAttribute("editTransportTypeById", true);
         model.addAttribute("transport_type", transportTypeRepository.findById(id).orElse(new TransportType()));
         return "transport_types/edit_item";
     }
@@ -63,7 +60,6 @@ public class TransportTypesController
     @GetMapping(value = "/delete")
     public String getDeletePage(Model model)
     {
-        model.addAttribute("deleteTransportType", true);
         model.addAttribute("transport_types", transportTypeRepository.findAll());
         return "transport_types/delete";
     }

@@ -20,7 +20,6 @@ public class DriversController
     @GetMapping("/add")
     public String getAddDriverPage(Model model)
     {
-        model.addAttribute("add_driver", true);
         model.addAttribute("driver", new Driver());
         return "drivers/add";
     }
@@ -35,7 +34,6 @@ public class DriversController
     @GetMapping(value = "/show")
     public String getAllDrivers(Model model)
     {
-        model.addAttribute("show_all_drivers", true);
         model.addAttribute("drivers", driverRepository.findAll().stream().sorted(Comparator.comparingLong(Driver::getId)).collect(Collectors.toList()));
         return "drivers/show";
     }
@@ -43,7 +41,6 @@ public class DriversController
     @GetMapping(value = "/edit")
     public String getEditDrivers(Model model)
     {
-        model.addAttribute("edit_drivers", true);
         model.addAttribute("drivers", driverRepository.findAll().stream().sorted(Comparator.comparingLong(Driver::getId)).collect(Collectors.toList()));
         return "drivers/edit";
     }
@@ -51,7 +48,6 @@ public class DriversController
     @GetMapping(value = "/edit/{id}")
     public String getEditDriverById(@PathVariable Long id, Model model)
     {
-        model.addAttribute("edit_driver_by_id", true);
         model.addAttribute("driver", driverRepository.findById(id).orElse(new Driver()));
         return "drivers/edit_item";
     }
@@ -67,7 +63,6 @@ public class DriversController
     @GetMapping(value = "/delete")
     public String getDeleteDrivers(Model model)
     {
-        model.addAttribute("delete_drivers", true);
         model.addAttribute("drivers", driverRepository.findAll().stream().sorted(Comparator.comparingLong(Driver::getId)).collect(Collectors.toList()));
         return "drivers/delete";
     }
