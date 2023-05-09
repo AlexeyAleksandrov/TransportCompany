@@ -14,18 +14,18 @@ public class Route
     @Basic
     @Column(name = "route_number")
     private String routeNumber;
-    @Basic
-    @Column(name = "route_start_point")
-    private Long routeStartPoint;
-    @Basic
-    @Column(name = "route_finish_point")
-    private Long routeFinishPoint;
+    @ManyToOne
+    @JoinColumn(name = "route_start_point")
+    private EndPoint routeStartPoint;
+    @ManyToOne
+    @JoinColumn(name = "route_finish_point")
+    private EndPoint routeFinishPoint;
     @Basic
     @Column(name = "route_time")
     private Integer routeTime;
-    @Basic
-    @Column(name = "route_interval")
-    private Long routeInterval;
+    @ManyToOne
+    @JoinColumn(name = "route_interval")
+    private RouteInterval routeInterval;
     @Basic
     @Column(name = "cost_for_adult")
     private Integer costForAdult;
@@ -53,22 +53,22 @@ public class Route
         this.routeNumber = routeNumber;
     }
 
-    public Long getRouteStartPoint()
+    public EndPoint getRouteStartPoint()
     {
         return routeStartPoint;
     }
 
-    public void setRouteStartPoint(Long routeStartPoint)
+    public void setRouteStartPoint(EndPoint routeStartPoint)
     {
         this.routeStartPoint = routeStartPoint;
     }
 
-    public Long getRouteFinishPoint()
+    public EndPoint getRouteFinishPoint()
     {
         return routeFinishPoint;
     }
 
-    public void setRouteFinishPoint(Long routeFinishPoint)
+    public void setRouteFinishPoint(EndPoint routeFinishPoint)
     {
         this.routeFinishPoint = routeFinishPoint;
     }
@@ -83,12 +83,12 @@ public class Route
         this.routeTime = routeTime;
     }
 
-    public Long getRouteInterval()
+    public RouteInterval getRouteInterval()
     {
         return routeInterval;
     }
 
-    public void setRouteInterval(Long routeInterval)
+    public void setRouteInterval(RouteInterval routeInterval)
     {
         this.routeInterval = routeInterval;
     }
