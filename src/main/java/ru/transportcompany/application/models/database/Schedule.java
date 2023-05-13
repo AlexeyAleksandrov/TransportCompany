@@ -1,4 +1,4 @@
-package ru.transportcompany.application.controllers.database;
+package ru.transportcompany.application.models.database;
 
 import ru.transportcompany.application.models.database.Route;
 import ru.transportcompany.application.models.database.Transport;
