@@ -1,4 +1,4 @@
-package ru.transportcompany.application.models;
+package ru.transportcompany.application.models.forms;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

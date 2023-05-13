@@ -1,4 +1,4 @@
-package ru.transportcompany.application.controllers;
+package ru.transportcompany.application.controllers.exceptions;
 
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;

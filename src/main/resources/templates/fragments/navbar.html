@@ -17,6 +17,7 @@
 <div th:fragment="nav">
     <nav>
         <ul id="navbar">
+            <li><button class="dropbtn" onclick="location.href='/'">Главная</button></li>
             <li th:replace="fragments/navbar::element (${'Водители'}, @{/drivers/show}, @{/drivers/add}, @{/drivers/edit}, @{/drivers/delete})"></li>
             <li th:replace="fragments/navbar::element (${'Виды транспорта'}, @{/transport/types/show}, @{/transport/types/add}, @{/transport/types/edit}, @{/transport/types/delete})"></li>
             <li th:replace="fragments/navbar::element (${'Транспорт'}, @{/transport/show}, @{/transport/add}, @{/transport/edit}, @{/transport/delete})"></li>

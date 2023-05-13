@@ -10,8 +10,7 @@
     <div class="card input_block">
         <h2 class="input_header">Авторизация</h2>
         <div class="card-header">
-            <!--/*@thymesVar id="auth_form" type="ru.transportcompany.application.models.AuthRequestModel"*/-->
-            <form name="loginform" th:action="${action}" th:method="POST" th:object="${auth_form}">
+            <form th:action="@{/auth}" th:method="POST" th:object="${auth_form}">
                 <table>
                     <tr>
                         <td class="td_input"><label for="login">Логин:</label></td>
@@ -27,6 +26,9 @@
                     </tr>
                 </table>
             </form>
+        </div>
+        <div class="card-header" th:if="${auth_result}">
+            <p th:text="${auth_result.authResult}"></p>
         </div>
     </div>
 </main>

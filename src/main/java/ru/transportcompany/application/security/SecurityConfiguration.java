@@ -18,7 +18,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter
 {
-    String[] allowMatchers = {"/", "/auth", "/styles**"};
+    String[] allowMatchers = {"/", "/auth", "/styles/**"};
 
     // сервис для конвертации пользователей в UserDetails
     final SecurityUserDetailsService securityUserDetailsService;
