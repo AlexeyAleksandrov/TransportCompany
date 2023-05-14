@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.transportcompany.application.models.forms.AuthFormModel;
 import ru.transportcompany.application.models.forms.AuthResponseModel;
+import ru.transportcompany.application.models.forms.RegisterFormModel;
 import ru.transportcompany.application.models.users.User;
 import ru.transportcompany.application.repositories.UserRepository;
 
@@ -82,7 +83,7 @@ public class AuthController
         return "auth/auth";
     }
 
-    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    @GetMapping(value = "/logout")
     public String logoutPage(HttpServletRequest request)
     {
         try
@@ -94,5 +95,30 @@ public class AuthController
             e.printStackTrace();
         }
         return "redirect:/auth";
+    }
+
+    @GetMapping(value = "/register")
+    public String registerPage(Model model)
+    {
+        model.addAttribute("form", new RegisterFormModel());
+        return "auth/register";
+    }
+
+    @PostMapping(value = "/register")
+    public String register(@ModelAttribute RegisterFormModel registerForm, Model model, HttpServletRequest request)
+    {
+        if(registerForm.getUsername().isEmpty()
+                || registerForm.getPassword().isEmpty()
+                || registerForm.getPassword_confirm().isEmpty())
+        {
+            model.addAttribute("Error", "Введите корректные данные!");
+        }
+        else if (registerForm.getUsername().length() < 6 || registerForm.getUsername().length() > 20)
+        {
+            model.addAttribute("Error", "Имя пользователя должно быть от 6 до 20 символов!");
+        }
+
+
+        return "auth/register";
     }
 }
