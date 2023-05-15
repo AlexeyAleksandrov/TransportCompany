@@ -1,14 +1,16 @@
 package ru.transportcompany.application.controllers.pages;
 
 import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import ru.transportcompany.application.models.forms.AuthFormModel;
-import ru.transportcompany.application.models.forms.AuthResponseModel;
-import ru.transportcompany.application.models.forms.RegisterFormModel;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import ru.transportcompany.application.models.forms.auth.LoginForm;
+import ru.transportcompany.application.models.forms.auth.SignUpUserForm;
 import ru.transportcompany.application.models.users.User;
-import ru.transportcompany.application.repositories.UserRepository;
+import ru.transportcompany.application.repositories.UsersRepository;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +19,8 @@ import javax.servlet.http.HttpServletRequest;
 @AllArgsConstructor
 public class AuthController
 {
-    UserRepository userRepository;
+    private final UsersRepository usersRepository;  // репозиторий для работы с пользователями
+    private final PasswordEncoder passwordEncoder;  // кодировщик паролей
 
     // это просто для того, чтобы Spring Security перебрасывал авторизацию на кастомный адрес, где происходит авторизация
     @RequestMapping(value = "/authlogin", method = RequestMethod.GET)
@@ -26,64 +29,55 @@ public class AuthController
         return "redirect:/auth";
     }
 
-    @GetMapping(value = "/auth")
-    public String getAuthPage(Model model)
+    @RequestMapping(value = "/auth", method = RequestMethod.GET)
+    public String loginPage(Model model)
     {
-        model.addAttribute("auth_form", new AuthFormModel());
+        model.addAttribute("form", new LoginForm());
         return "auth/auth";
     }
 
-    @PostMapping(value = "/auth")
-    public String authUser(@ModelAttribute AuthFormModel authForm,
-                           Model model,
-                           HttpServletRequest request)
+    @RequestMapping(value = "/auth", method = RequestMethod.POST)
+    public String login(@ModelAttribute("form") LoginForm loginForm, Model model, HttpServletRequest request)
     {
-        if(authForm.getLogin().length() == 0)  // если не указан логин
+        if(loginForm.getLogin().length() == 0)  // если не указан логин
         {
-            model.addAttribute("auth_result", new AuthResponseModel(false, "Пользователь не найден!"));
+            model.addAttribute("UserNotFound", true);
+            return "auth/auth";
         }
-        else if(authForm.getPassword().length() == 0)  // если не указан пароль
+        if(loginForm.getPassword().length() == 0)  // если не указан пароль
         {
-            model.addAttribute("auth_result", new AuthResponseModel(false, "Пользователь не найден!"));
+            model.addAttribute("UserNotFound", true);
+            return "auth/auth";
         }
-        else    // если данные введены
-        {
-            User user = userRepository.findByUsername(authForm.getLogin()).orElse(null);
-            if(user == null)    // если пользователя с таким именем нет
-            {
-                model.addAttribute("auth_result", new AuthResponseModel(false, "Пользователь не найден!"));
-            }
-            else    // если пользователь найден
-            {
-                try     // пробуем авторизовать пользователя
-                {
-                    request.login(authForm.getLogin(), authForm.getPassword());  // выполняем принудительную авторизацию
-                    model.addAttribute("auth_result", new AuthResponseModel(true, "Авторизация прошла успешно!"));
-                }
-                catch (ServletException e)  // если произошла ошибка
-                {
-                    if(e.getMessage().equals("Неверные учетные данные пользователя"))
-                    {
-                        model.addAttribute("auth_result", new AuthResponseModel(false, "Неверный логин или пароль"));
-                    }
-                    else
-                    {
-                        e.printStackTrace();
-                        model.addAttribute("auth_result", new AuthResponseModel(false, "Внутренняя ошибка сервера. Авторизация не выполнена."));
-                    }
-                }
 
-                model.addAttribute("auth_result", new AuthResponseModel(true, "Авторизация прошла успешно!"));
-                return "redirect:/";
+        User user = usersRepository.findByUsername(loginForm.getLogin()).orElse(null);
+        if(user == null)    // если пользователя с таким именем нет
+        {
+            model.addAttribute("UserNotFound", true);
+            return "auth/auth";
+        }
+
+        try
+        {
+            request.login(loginForm.getLogin(), loginForm.getPassword());  // выполняем принудительную авторизацию
+            return "redirect:/";
+        }
+        catch (ServletException e)  // если произошла ошибка
+        {
+            if(e.getMessage().equals("Неверные учетные данные пользователя"))
+            {
+                model.addAttribute("PasswordError", true);
+                return "auth/auth";
+            }
+            else
+            {
+                e.printStackTrace();
+                return "auth/auth";
             }
         }
-
-        model.addAttribute("auth_form", authForm);      // возвращаем обратно то, что ввёл пользователь
-
-        return "auth/auth";
     }
 
-    @GetMapping(value = "/logout")
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logoutPage(HttpServletRequest request)
     {
         try
@@ -94,31 +88,71 @@ public class AuthController
         {
             e.printStackTrace();
         }
-        return "redirect:/auth";
+        return "redirect:/login";
     }
 
-    @GetMapping(value = "/register")
-    public String registerPage(Model model)
+    @RequestMapping(value = "/register", method = RequestMethod.GET)
+    public String registration(Model model)
     {
-        model.addAttribute("form", new RegisterFormModel());
+        model.addAttribute("registerForm", new SignUpUserForm());
         return "auth/register";
     }
 
-    @PostMapping(value = "/register")
-    public String register(@ModelAttribute RegisterFormModel registerForm, Model model, HttpServletRequest request)
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public String signUp(@ModelAttribute("form") SignUpUserForm signUpUserForm, Model model, HttpServletRequest request)
     {
-        if(registerForm.getUsername().isEmpty()
-                || registerForm.getPassword().isEmpty()
-                || registerForm.getPassword_confirm().isEmpty())
+        boolean error = false;  // флаг ошибки
+
+        if(signUpUserForm.getUsername().length() < 6 || signUpUserForm.getUsername().length() > 20) // проверка на длину логина
         {
-            model.addAttribute("Error", "Введите корректные данные!");
-        }
-        else if (registerForm.getUsername().length() < 6 || registerForm.getUsername().length() > 20)
-        {
-            model.addAttribute("Error", "Имя пользователя должно быть от 6 до 20 символов!");
+            model.addAttribute("loginError", "Имя пользователя должно быть от 6 до 20 символов!");
+            error = true;
         }
 
+        if(signUpUserForm.getPassword().length() < 6 || signUpUserForm.getPassword().length() > 20) // проверка на длину пароля
+        {
+            model.addAttribute("passwordError", "Пароль должен содержать от 6 до 20 символов");
+            error = true;
+        }
 
-        return "auth/register";
+        if(!signUpUserForm.getPassword().equals(signUpUserForm.getConfirm_password()))  // если пароли не совпадают
+        {
+            model.addAttribute("passwordNotConfirm", true);
+            error = true;
+        }
+
+        if(error)
+        {
+            model.addAttribute("registerForm", signUpUserForm);
+            return "auth/register";
+        }
+        else
+        {
+            if(usersRepository.existsByUsername(signUpUserForm.getUsername()))  // проверяем, что пользователь уже существует
+            {
+                model.addAttribute("userExists", true);
+                model.addAttribute("registerForm", signUpUserForm);
+                return "auth/register";
+            }
+            else
+            {
+                User user = new User();
+                user.setUsername(signUpUserForm.getUsername());
+                user.setPassword(passwordEncoder.encode(signUpUserForm.getPassword()));
+
+                usersRepository.save(user); // сохраняем пользователя
+
+                try
+                {
+                    request.login(signUpUserForm.getUsername(), signUpUserForm.getPassword());  // выполняем принудительную авторизацию
+                    return "redirect:/";
+                }
+                catch (ServletException e)  // если произошла ошибка
+                {
+                    e.printStackTrace();
+                    return "redirect:/auth";
+                }
+            }
+        }
     }
 }

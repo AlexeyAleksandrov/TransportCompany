@@ -10,25 +10,36 @@
     <div class="card input_block">
         <h2 class="input_header">Авторизация</h2>
         <div class="card-header">
-            <form th:action="@{/auth}" th:method="POST" th:object="${auth_form}">
-                <table>
-                    <tr>
-                        <td class="td_input"><label for="login">Логин:</label></td>
-                        <td class="td_input">
-                        <input type="text" id="login" name="login" th:field="*{login}" th:value="*{login}"/></td>
-                    </tr>
-                    <tr>
-                        <td class="td_input"><label for="password">Пароль:</label></td>
-                        <td class="td_input"><input type="password" id="password" name="password" th:field="*{password}" th:value="*{password}"/></td>
-                    </tr>
-                    <tr>
-                        <td class="td_input" colSpan="2"><input type="submit" class="btn btn-primary" value="Авторизация"></td>
-                    </tr>
-                </table>
+            <form th:action="@{/auth}" method="post" th:object="${form}">
+                <header>
+                    <h2>Авторизация</h2>
+                    <!--											Логин -->
+                    <label for="username">
+                        <h3>Логин:</h3>
+                        <input type="text" th:field="*{login}" id="username" placeholder="Логин">
+                    </label>
+                    <p th:if="${UserNotFound}">
+                        Пользователь с таким логином не найден
+                    </p>
+                    <!--											Пароль -->
+                    <label for="password">
+                        <h3>Пароль:</h3>
+                        <input type="password" th:field="*{password}" id="password" placeholder="Пароль">
+                    </label>
+                    <p th:if="${PasswordError}">
+                        Пароль не верный
+                    </p>
+                    <p th:if="${param.error}">
+                        Пароль не верный, или пользователя с таким именем не существует
+                    </p>
+                </header>
+                <div class="col-12">
+                    <ul class="actions">
+                        <li><input type="submit" class="btn btn-primary" value="Войти" /></li>
+                        <li><a th:href="@{/register}" class="btn btn-primary">Зарегистрироваться</a></li>
+                    </ul>
+                </div>
             </form>
-        </div>
-        <div class="card-header" th:if="${auth_result}">
-            <p th:text="${auth_result.authResult}"></p>
         </div>
     </div>
 </main>

@@ -10,25 +10,36 @@
     <div class="card input_block">
         <h2 class="input_header">Регистрация</h2>
         <div class="card-header">
-            <form th:action="@{/auth}" th:method="POST" th:object="${auth_form}">
-                <table>
-                    <tr>
-                        <td class="td_input"><label for="login">Логин:</label></td>
-                        <td class="td_input">
-                        <input type="text" id="login" name="login" th:field="*{login}" th:value="*{login}"/></td>
-                    </tr>
-                    <tr>
-                        <td class="td_input"><label for="password">Пароль:</label></td>
-                        <td class="td_input"><input type="password" id="password" name="password" th:field="*{password}" th:value="*{password}"/></td>
-                    </tr>
-                    <tr>
-                        <td class="td_input" colSpan="2"><input type="submit" class="btn btn-primary" value="Авторизация"></td>
-                    </tr>
-                </table>
+            <form th:action="@{/signup}" th:object="${registerForm}" method="post" >
+                <header>
+                    <h2>Регистрация пользователя</h2>
+                    <!--											Логин -->
+                    <label for="username">
+                        <h3>Логин:</h3>
+                        <input type="text" th:field="${registerForm.username}" id="username">
+                    </label>
+                    <p th:if="${loginError}" th:text="${loginError}">Ошибка логина</p>
+                    <p th:if="${userExists}">Пользователь с данным именем уже существует!</p>
+
+                    <!--											Пароль -->
+                    <label for="password_first">
+                        <h3>Пароль:</h3>
+                        <input type="password" th:field="${registerForm.password}" id="password_first">
+                    </label>
+                    <p th:if="${passwordError}" th:text="${loginError}">Ошибка пароля</p>
+                    <label for="password_second">
+                        <h3>Повтор пароля:</h3>
+                        <input type="password" th:field="${registerForm.confirm_password}" id="password_second">
+                    </label>
+                    <p th:if="${passwordNotConfirm}">Пароли не совпадают</p>
+                </header>
+                <div class="col-12">
+                    <ul id="navbar">
+                        <li><input type="submit" class="btn btn-primary" value="Зарегистрироваться" /></li>
+                        <li><a th:href="@{/auth}" class="btn btn-primary">Вход с паролем</a></li>
+                    </ul>
+                </div>
             </form>
-        </div>
-        <div class="card-header" th:if="${auth_result}">
-            <p th:text="${auth_result.authResult}"></p>
         </div>
     </div>
 </main>
