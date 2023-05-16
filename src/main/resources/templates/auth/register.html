@@ -7,38 +7,46 @@
 <main>
     <div class="clear"></div>
 
-    <div class="card input_block">
+    <div class="card edit_block">
         <h2 class="input_header">Регистрация</h2>
         <div class="card-header">
             <form th:action="@{/signup}" th:object="${registerForm}" method="post" >
-                <header>
-                    <h2>Регистрация пользователя</h2>
-                    <!--											Логин -->
-                    <label for="username">
-                        <h3>Логин:</h3>
-                        <input type="text" th:field="${registerForm.username}" id="username">
-                    </label>
-                    <p th:if="${loginError}" th:text="${loginError}">Ошибка логина</p>
-                    <p th:if="${userExists}">Пользователь с данным именем уже существует!</p>
-
-                    <!--											Пароль -->
-                    <label for="password_first">
-                        <h3>Пароль:</h3>
-                        <input type="password" th:field="${registerForm.password}" id="password_first">
-                    </label>
-                    <p th:if="${passwordError}" th:text="${loginError}">Ошибка пароля</p>
-                    <label for="password_second">
-                        <h3>Повтор пароля:</h3>
-                        <input type="password" th:field="${registerForm.confirm_password}" id="password_second">
-                    </label>
-                    <p th:if="${passwordNotConfirm}">Пароли не совпадают</p>
-                </header>
-                <div class="col-12">
-                    <ul id="navbar">
-                        <li><input type="submit" class="btn btn-primary" value="Зарегистрироваться" /></li>
-                        <li><a th:href="@{/auth}" class="btn btn-primary">Вход с паролем</a></li>
-                    </ul>
-                </div>
+                <table>
+                    <tr>
+                        <td>Логин:</td>
+                        <td><input type="text" th:field="${registerForm.username}" id="username"></td>
+                    </tr>
+                    <tr th:if="${loginError}">
+                        <td th:text="${loginError}" colspan="2">Ошибка логина</td>
+                    </tr>
+                    <tr th:if="${userExists}">
+                        <td colspan="2">Пользователь с данным именем уже существует!</td>
+                    </tr>
+                    <tr>
+                        <td>Пароль:</td>
+                        <td><input type="password" th:field="${registerForm.password}" id="password_first"></td>
+                    </tr>
+                    <tr th:if="${passwordError}">
+                        <td th:text="${loginError}" colspan="2">Ошибка пароля</td>
+                    </tr>
+                    <tr>
+                        <td>Повтор пароля:</td>
+                        <td><input type="password" th:field="${registerForm.confirm_password}" id="password_second"></td>
+                    </tr>
+                    <tr th:if="${passwordNotConfirm}">
+                        <td colspan="2">Пароли не совпадают</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <table>
+                                <tr>
+                                    <td><input type="submit" class="btn btn-primary" value="Зарегистрироваться" /></td>
+                                    <td><a th:href="@{/auth}" class="btn btn-primary">Вход с паролем</a></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
             </form>
         </div>
     </div>

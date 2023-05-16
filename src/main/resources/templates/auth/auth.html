@@ -7,38 +7,39 @@
 <main>
     <div class="clear"></div>
 
-    <div class="card input_block">
+    <div class="card edit_block">
         <h2 class="input_header">Авторизация</h2>
         <div class="card-header">
             <form th:action="@{/auth}" method="post" th:object="${form}">
-                <header>
-                    <h2>Авторизация</h2>
-                    <!--											Логин -->
-                    <label for="username">
-                        <h3>Логин:</h3>
-                        <input type="text" th:field="*{login}" id="username" placeholder="Логин">
-                    </label>
-                    <p th:if="${UserNotFound}">
-                        Пользователь с таким логином не найден
-                    </p>
-                    <!--											Пароль -->
-                    <label for="password">
-                        <h3>Пароль:</h3>
-                        <input type="password" th:field="*{password}" id="password" placeholder="Пароль">
-                    </label>
-                    <p th:if="${PasswordError}">
-                        Пароль не верный
-                    </p>
-                    <p th:if="${param.error}">
-                        Пароль не верный, или пользователя с таким именем не существует
-                    </p>
-                </header>
-                <div class="col-12">
-                    <ul class="actions">
-                        <li><input type="submit" class="btn btn-primary" value="Войти" /></li>
-                        <li><a th:href="@{/register}" class="btn btn-primary">Зарегистрироваться</a></li>
-                    </ul>
-                </div>
+                <table class="input_header">
+                    <tr>
+                        <td>Логин:</td>
+                        <td><input type="text" th:field="*{login}" id="username" placeholder="Логин"></td>
+                    </tr>
+                    <tr th:if="${UserNotFound}">
+                        <td colspan="2">Пользователь с таким логином не найден</td>
+                    </tr>
+                    <tr>
+                        <td>Пароль:</td>
+                        <td><input type="password" th:field="*{password}" id="password" placeholder="Пароль"></td>
+                    </tr>
+                    <tr th:if="${PasswordError}">
+                        <td colspan="2">Пароль не верный</td>
+                    </tr>
+                    <tr th:if="${param.error}">
+                        <td colspan="2">Пароль не верный, или пользователя с таким именем не существует</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <table>
+                                <tr>
+                                    <td><input type="submit" class="btn btn-primary" value="Войти" /></td>
+                                    <td><a th:href="@{/register}" class="btn btn-primary">Зарегистрироваться</a></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
             </form>
         </div>
     </div>
