@@ -5,12 +5,18 @@
     <p>
         <a href="/" class="card btn" id="logo">Система управления предприятием ИндустрияАВТО</a>
     </p>
-    <p>
+    <!--/*@thymesVar id="is_auth" type="java.lang.Boolean"*/-->
+    <p th:if="${!is_auth}">
         <a class="btn btn-primary btn-lg float-end" id="sign_up_button" th:href="@{/register}">Регистрация</a>
     </p>
-    <p>
+    <p th:if="${!is_auth}">
         <a class="btn btn-primary btn-lg float-end" id="sign_in_button" th:href="@{/auth}">Войти</a>
     </p>
+    <p th:if="${is_auth}">
+        <a class="btn btn-primary btn-lg float-end" id="sign_out_button" th:href="@{/logout}">Выйти</a>
+    </p>
+    <!--/*@thymesVar id="user" type="ru.transportcompany.application.models.users.User"*/-->
+    <p th:if="${is_auth}" th:text="${'Вы вошли как ' + user.getUsername()}" class="btn-lg float-end"></p>
     <div class="clear"></div>
 </div>
 </body>

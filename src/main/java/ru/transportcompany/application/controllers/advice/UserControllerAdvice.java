@@ -15,40 +15,24 @@ import ru.transportcompany.application.repositories.UsersRepository;
 @AllArgsConstructor
 public class UserControllerAdvice
 {
-
-//    private UsersRepository usersRepository;
-//
-//    @ModelAttribute
-//    public void addAttributes(Model model, Authentication authentication) {
-//        if (authentication != null && authentication.isAuthenticated()) {
-//            String userName = authentication.getName();
-//            User user = usersRepository.findByUsername(userName).orElse(null);
-//
-//            model.addAttribute("currentUser", new CurrentUser(authentication));
-//            model.addAttribute("user", user);
-//        }
-//    }
-
-//    @ModelAttribute("user_name")
-//    public String getCurrentUser(Authentication authentication)     // добавление имени пользователя в каждый запрос
-//    {
-//        String currentUser = "неавторизованный пользователь";
-//        if (authentication != null)
-//        {
-//            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-//            currentUser = userDetails.getUsername();
-//        }
-//        return currentUser;
-//    }
+    UsersRepository usersRepository;
 
     @ModelAttribute
     public void addAttributes(Model model, Authentication authentication)
     {
-        String userName = "неавторизованный пользователь";
+        boolean isAuth = false;
         if (authentication != null && authentication.isAuthenticated())
         {
+            String userName = "неавторизованный пользователь";
             userName = authentication.getName();
+            User user = usersRepository.findByUsername(userName).orElse(null);
+            if (user != null)
+            {
+                isAuth = true;
+            }
+            model.addAttribute("user_name", userName);
+            model.addAttribute("user", user);
         }
-        model.addAttribute("user", userName);
+        model.addAttribute("is_auth", isAuth);
     }
 }

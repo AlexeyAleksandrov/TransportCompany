@@ -5,8 +5,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.transportcompany.application.models.database.Route;
+import ru.transportcompany.application.models.database.Schedule;
+import ru.transportcompany.application.models.database.Transport;
 import ru.transportcompany.application.repositories.RouteRepository;
 import ru.transportcompany.application.repositories.ScheduleRepository;
+import ru.transportcompany.application.repositories.TransportRepository;
+import ru.transportcompany.application.services.RoutesService;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -25,7 +29,8 @@ import java.util.stream.Collectors;
 public class ScheduleController
 {
     private ScheduleRepository scheduleRepository;
-    private RouteRepository routeRepository;
+    private RoutesService routesService;
+    private TransportRepository transportRepository;
 
     @GetMapping(value = "/show")
     public String show()
@@ -36,31 +41,34 @@ public class ScheduleController
     @PostMapping(value = "/show")
     public String showDate(@RequestParam String date, Model model)
     {
+
+        return "schedule/show";
+    }
+
+    @GetMapping(value = "/add")
+    public String addSchedulePage()
+    {
+        return "schedule/add";
+    }
+
+    @PostMapping(value = "/add")
+    public String addScheduleItemPage(@RequestParam String date, Model model)
+    {
+        // маршруты
         List<Route> routes = new ArrayList<>();
         try
         {
-            System.out.println("Дата: " + date);
+            // System.out.println("Дата: " + date);
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             Date searchDate = dateFormat.parse(date);
 
-            System.out.println("Дата: " + searchDate.toString() + " День: " + searchDate.getDate() + " День недели: " + searchDate.getDay());
+            model.addAttribute("date", searchDate);
 
-            // ищем подходящие маршруты
-            routes = routeRepository.findAll().stream()
-                    .filter(route -> {
-                        String name = route.getRouteInterval().getIntervalName();   // интервал движения
-                        switch (name)
-                        {
-                            case "ежедневно" -> { return true; }    // любой день подходит
-                            case "по чётным" -> { return searchDate.getDate() % 2 == 0; }   // только чётный день
-                            case "по нечётным" -> { return searchDate.getDate() % 2 != 0; }   // только нечётный день
-                            case "по рабочим" -> { return (searchDate.getDay() >= 1 &&  searchDate.getDay() <= 5 ); }   // только пн - пт
-                            case "по выходным" -> { return (searchDate.getDay() == 6 || searchDate.getDay() == 0 ); }   // только сб или вс
-                            default -> { return false; }
-                        }
-                    })
-                    .collect(Collectors.toList());
+            // System.out.println("Дата: " + searchDate.toString() + " День: " + searchDate.getDate() + " День недели: " + searchDate.getDay());
+
+            // ищем подходящие маршруты на выбранный день
+            routes = routesService.getRoutesForDate(searchDate);
 
             model.addAttribute("routes", routes);
 
@@ -72,6 +80,24 @@ public class ScheduleController
         {
             model.addAttribute("date_error", "Указана некорректная дата!");
         }
-        return "schedule/show";
+
+        // транспорт
+        List<Transport> transports = transportRepository.findAll();
+        model.addAttribute("transports", transports);
+
+        // строка расписания
+        model.addAttribute("schedule", new Schedule());
+
+        return "schedule/add_item";
+    }
+
+    @PostMapping(value = "/add/item")
+    public String addScheduleItem(@ModelAttribute Schedule schedule, @ModelAttribute("date") Date date, Model model)
+    {
+        // формируем дату
+        SimpleDateFormat outputDateFormat = new SimpleDateFormat("dd MMMM yyyy");
+        System.out.println(outputDateFormat.format(date));
+
+        return "redirect:/schedule/show";
     }
 }

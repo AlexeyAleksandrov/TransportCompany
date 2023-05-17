@@ -1,13 +1,16 @@
 package ru.transportcompany.application.models.database;
 
+import lombok.Data;
 import ru.transportcompany.application.models.database.Route;
 import ru.transportcompany.application.models.database.Transport;
 
 import javax.persistence.*;
 import java.time.LocalTime;
+import java.util.Date;
 
 @Entity
 @Table(name = "schedule")
+@Data
 public class Schedule
 {
     @Id
@@ -26,19 +29,6 @@ public class Schedule
     @JoinColumn(name = "transport")
     private Transport transport;
 
-    public Transport getTransport() {return transport;}
-
-    public void setTransport(Transport transport) {this.transport = transport;}
-
-    public LocalTime getTimeStart() {return timeStart;}
-
-    public void setTimeStart(LocalTime timeStart) {this.timeStart = timeStart;}
-
-    public Route getRoute() {return route;}
-
-    public void setRoute(Route route) {this.route = route;}
-
-    public Long getId() {return id;}
-
-    public void setId(Long id) {this.id = id;}
+    @Column(name = "date")
+    private Date date;
 }
