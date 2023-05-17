@@ -13,7 +13,8 @@ import ru.transportcompany.application.repositories.UsersRepository;
 
 @ControllerAdvice
 @AllArgsConstructor
-public class UserControllerAdvice {
+public class UserControllerAdvice
+{
 
 //    private UsersRepository usersRepository;
 //
@@ -28,15 +29,26 @@ public class UserControllerAdvice {
 //        }
 //    }
 
-    @ModelAttribute("user_name")
-    public String getCurrentUser(Authentication authentication)     // добавление имени пользователя в каждый запрос
+//    @ModelAttribute("user_name")
+//    public String getCurrentUser(Authentication authentication)     // добавление имени пользователя в каждый запрос
+//    {
+//        String currentUser = "неавторизованный пользователь";
+//        if (authentication != null)
+//        {
+//            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+//            currentUser = userDetails.getUsername();
+//        }
+//        return currentUser;
+//    }
+
+    @ModelAttribute
+    public void addAttributes(Model model, Authentication authentication)
     {
-        String currentUser = "неавторизованный пользователь";
-        if (authentication != null)
+        String userName = "неавторизованный пользователь";
+        if (authentication != null && authentication.isAuthenticated())
         {
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            currentUser = userDetails.getUsername();
+            userName = authentication.getName();
         }
-        return currentUser;
+        model.addAttribute("user", userName);
     }
 }

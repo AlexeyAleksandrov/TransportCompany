@@ -12,7 +12,7 @@ import ru.transportcompany.application.models.users.User;
 public class HomeController
 {
     @GetMapping(value = "/")
-    public String getHomePage(@ModelAttribute("user_name") String currentUser)
+    public String getHomePage()
     {
         return "home";
     }
