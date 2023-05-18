@@ -13,7 +13,7 @@
         <div class="card-header">
             <form th:action="@{/schedule/add/}" th:method="POST">
                 <label>Выберите дату:<input type="date" id="date" name="date"></label>
-                <input type="submit" value="Выбрать">
+                <input type="submit" value="Выбрать" class="btn btn-primary">
             </form>
         </div>
     </div>
@@ -46,7 +46,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="2"><input type="submit" value="Добавить"></td>
+                                    <td colspan="2"><input type="submit" value="Добавить" class="btn btn-primary float-end"></td>
                                 </tr>
                             </table>
                         </form>
