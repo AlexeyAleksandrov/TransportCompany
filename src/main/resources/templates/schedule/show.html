@@ -12,37 +12,38 @@
         <h2 class="input_header">Расписание транспорта</h2>
         <div class="card-header">
             <form th:action="@{/schedule/show/}" th:method="POST">
-                <label>Выберите дату:<input type="date" id="date" name="date"></label>
+                <label>Выберите дату:<input type="date" id="date" name="date" th:value="${date}"></label>
                 <input type="submit" value="Выбрать">
             </form>
         </div>
     </div>
     <div th:if="routes">
-        <div th:if="${routes != null}">
+        <div th:if="${schedules != null}">
             <div class="card input_block_big">
                 <h2 class="input_header" th:text="${'Список маршрутов на дату ' + search_date}">Список маршрутов на дату</h2>
                 <div class="card-header">
-                    <table th:if="${#lists.size(routes) > 0}">
+                    <table th:if="${#lists.size(schedules) > 0}">
                         <tr>
                             <th class="td_input">Номер маршрута</th>
                             <th class="td_input">Точка отправления</th>
                             <th class="td_input">Точка прибытия</th>
-                            <th class="td_input">Время в пути (минут)</th>
+                            <th class="td_input">Время отправления</th>
                             <th class="td_input">Интервал движения</th>
                             <th class="td_input">Стоимость для взрослого</th>
                             <th class="td_input">Стоимость для ребёнка</th>
                         </tr>
-                        <tr th:each="r : ${routes}">
-                            <td th:text="${r.routeNumber}" class="td_input">Номер маршрута</td>
-                            <td th:text="${r.routeStartPoint.pointName}" class="td_input">Точка отправления</td>
-                            <td th:text="${r.routeFinishPoint.pointName}" class="td_input">Точка прибытия</td>
-                            <td th:text="${r.routeTime}" class="td_input">Время в пути (минут)</td>
-                            <td th:text="${r.routeInterval.intervalName}" class="td_input">Интервал движения</td>
-                            <td th:text="${r.costForAdult}" class="td_input">Стоимость для взрослого</td>
-                            <td th:text="${r.costForChild}" class="td_input">Стоимость для ребёнка</td>
+                        <tr th:each="s: ${schedules}">
+                            <!--/*@thymesVar id="r" type="ru.transportcompany.application.models.database.Route"*/-->
+                            <td th:text="${s.route.routeNumber}" class="td_input">Номер маршрута</td>
+                            <td th:text="${s.route.routeStartPoint.pointName}" class="td_input">Точка отправления</td>
+                            <td th:text="${s.route.routeFinishPoint.pointName}" class="td_input">Точка прибытия</td>
+                            <td th:text="${s.timeStart.toString()}" class="td_input">Время отправления</td>
+                            <td th:text="${s.route.routeInterval.intervalName}" class="td_input">Интервал движения</td>
+                            <td th:text="${s.route.costForAdult + ' рублей'}" class="td_input">Стоимость для взрослого</td>
+                            <td th:text="${s.route.costForChild + ' рублей'}" class="td_input">Стоимость для ребёнка</td>
                         </tr>
                     </table>
-                    <p th:if="${#lists.size(routes) == 0}">На выбранную дату не найдено ни одного маршрута!</p>
+                    <p th:if="${#lists.size(schedules) == 0}">На выбранную дату не найдено ни одного маршрута!</p>
                 </div>
             </div>
         </div>

@@ -30,17 +30,45 @@ public class ScheduleController
 {
     private ScheduleRepository scheduleRepository;
     private RoutesService routesService;
+    private RouteRepository routeRepository;
     private TransportRepository transportRepository;
 
     @GetMapping(value = "/show")
-    public String show()
+    public String show(Model model)
     {
+        model.addAttribute("date", LocalDate.now());
         return "schedule/show";
     }
 
     @PostMapping(value = "/show")
     public String showDate(@RequestParam String date, Model model)
     {
+        List<Schedule> schedules = null;
+
+        try
+        {
+            // перевод строки в дату
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date searchDate = dateFormat.parse(date);
+            model.addAttribute("date", date);
+
+            // формируем дату
+            SimpleDateFormat outputDateFormat = new SimpleDateFormat("dd MMMM yyyy");
+            model.addAttribute("search_date", outputDateFormat.format(searchDate));
+
+            // маршруты
+            schedules = scheduleRepository.findAllByDate(searchDate);
+        }
+        catch (ParseException e)
+        {
+            schedules = new ArrayList<>();
+            model.addAttribute("date_error", "Указана некорректная дата!");
+            e.printStackTrace();
+        }
+        finally
+        {
+            model.addAttribute("schedules", schedules);
+        }
 
         return "schedule/show";
     }
@@ -92,11 +120,10 @@ public class ScheduleController
     }
 
     @PostMapping(value = "/add/item")
-    public String addScheduleItem(@ModelAttribute Schedule schedule, @ModelAttribute("date") Date date, Model model)
+    public String addScheduleItem(@ModelAttribute Schedule schedule, @ModelAttribute("date") Date date)
     {
-        // формируем дату
-        SimpleDateFormat outputDateFormat = new SimpleDateFormat("dd MMMM yyyy");
-        System.out.println(outputDateFormat.format(date));
+        schedule.setDate(date);
+        scheduleRepository.save(schedule);
 
         return "redirect:/schedule/show";
     }
