@@ -168,7 +168,7 @@ public class ScheduleController
         return "schedule/edit_chose";
     }
 
-    @PostMapping(value = "/edit/{id}")
+    @GetMapping(value = "/edit/{id}")
     public String editScheduleItemPage(@PathVariable Long id, @ModelAttribute("date") Date date, Model model)
     {
         // формируем дату
@@ -193,8 +193,16 @@ public class ScheduleController
     @PostMapping(value = "/edit/item/{id}")
     public String editScheduleItem(@PathVariable Long id, @ModelAttribute Schedule schedule)
     {
+        // id
         schedule.setId(id);
+
+        // дата
+        Date date = scheduleRepository.findById(id).orElseThrow().getDate();
+        schedule.setDate(date);
+
+        //сохраняем
         scheduleRepository.save(schedule);
+
         return "redirect:/schedule/edit/";
     }
 }
