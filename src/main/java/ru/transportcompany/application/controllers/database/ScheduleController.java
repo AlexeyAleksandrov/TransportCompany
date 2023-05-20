@@ -189,4 +189,12 @@ public class ScheduleController
 
         return "schedule/edit_item";
     }
+
+    @PostMapping(value = "/edit/item/{id}")
+    public String editScheduleItem(@PathVariable Long id, @ModelAttribute Schedule schedule)
+    {
+        schedule.setId(id);
+        scheduleRepository.save(schedule);
+        return "redirect:/schedule/edit/";
+    }
 }

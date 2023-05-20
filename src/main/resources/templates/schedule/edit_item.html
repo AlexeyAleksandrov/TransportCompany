@@ -23,7 +23,7 @@
                 <h2 class="input_header" th:text="${'Изменение маршрутов на дату ' + search_date}">Список маршрутов на дату</h2>
                 <div class="card-header">
                     <div th:if="${#lists.size(routes) > 0 && #lists.size(transports) > 0}">
-                        <form th:action="@{/schedule/add/item/}" th:method="POST" th:object="${schedule}">
+                        <form th:action="@{'/schedule/edit/item/' + ${schedule.id}}" th:method="POST" th:object="${schedule}">
                             <table>
                                 <tr>
                                     <td>Маршрут:</td>
@@ -55,9 +55,6 @@
                     <p th:if="${#lists.size(transports) == 0}">На предприятии отсутствуют транспортные средства!</p>
                 </div>
             </div>
-        </div>
-        <div th:if="${date_error}" class="card input_block_big">
-            <p th:text="${date_error}"></p>
         </div>
     </div>
 </main>
