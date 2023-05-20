@@ -12,7 +12,7 @@
         <h2 class="input_header">Добавление расписание транспорта</h2>
         <div class="card-header">
             <form th:action="@{/schedule/add/}" th:method="POST">
-                <label>Выберите дату:<input type="date" id="date" name="date"></label>
+                <label>Выберите дату:<input type="date" th:value="${add_date}"></label>
                 <input type="submit" value="Выбрать" class="btn btn-primary">
             </form>
         </div>
@@ -23,7 +23,7 @@
                 <h2 class="input_header" th:text="${'Добавление маршрутов на дату ' + search_date}">Список маршрутов на дату</h2>
                 <div class="card-header">
                     <div th:if="${#lists.size(routes) > 0 && #lists.size(transports) > 0}">
-                        <form th:action="@{/schedule/add/item/}" th:method="POST" th:object="${schedule}">
+                        <form th:action="@{'/schedule/add/item/' + ${add_date}}" th:method="POST" th:object="${schedule}">
                             <table>
                                 <tr>
                                     <td>Маршрут:</td>

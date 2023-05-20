@@ -84,6 +84,7 @@ public class ScheduleController
     {
         // маршруты
         List<Route> routes = null;
+        model.addAttribute("add_date", date);
         try
         {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -118,9 +119,21 @@ public class ScheduleController
         return "schedule/add_item";
     }
 
-    @PostMapping(value = "/add/item")
-    public String addScheduleItem(@ModelAttribute Schedule schedule, @ModelAttribute("date") Date date)
+    @PostMapping(value = "/add/item/{add_date}")
+    public String addScheduleItem(@ModelAttribute Schedule schedule, @PathVariable String add_date)
     {
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = null;
+        try
+        {
+            date = dateFormat.parse(add_date);
+        }
+        catch (ParseException e)
+        {
+            e.printStackTrace();
+        }
+
         schedule.setDate(date);
         scheduleRepository.save(schedule);
 
@@ -204,5 +217,52 @@ public class ScheduleController
         scheduleRepository.save(schedule);
 
         return "redirect:/schedule/edit/";
+    }
+
+    @GetMapping(value = "/delete")
+    public String deleteSchedulePage()
+    {
+        return "schedule/delete";
+    }
+
+    @PostMapping(value = "/delete")
+    public String deleteScheduleChose(@RequestParam String date, Model model)
+    {
+        Date searchDate = new Date();
+
+        try
+        {
+            // перевод строки в дату
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            searchDate = dateFormat.parse(date);
+        }
+        catch (ParseException e)
+        {
+            e.printStackTrace();
+            model.addAttribute("date_error", "Указана некорректная дата!");
+            e.printStackTrace();
+        }
+        finally
+        {
+            // поиск расписания на дату
+            List<Schedule> schedules = scheduleRepository.findAllByDate(searchDate);
+
+            // формируем дату
+            SimpleDateFormat outputDateFormat = new SimpleDateFormat("dd MMMM yyyy");
+            model.addAttribute("search_date", outputDateFormat.format(searchDate));
+
+            // дата в поиске
+            model.addAttribute("date", date);
+            model.addAttribute("schedules", schedules);
+        }
+
+        return "schedule/delete_chose";
+    }
+
+    @GetMapping(value = "/delete/{id}")
+    public String deleteScheduleItem(@PathVariable Long id)
+    {
+        scheduleRepository.deleteById(id);
+        return "redirect:/schedule/delete";
     }
 }
