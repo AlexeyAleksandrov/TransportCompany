@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
+import ru.transportcompany.application.controllers.database.TicketsController;
 import ru.transportcompany.application.models.database.Schedule;
 import ru.transportcompany.application.repositories.ScheduleRepository;
 import ru.transportcompany.application.services.ScheduleService;
@@ -16,7 +17,6 @@ import java.io.*;
 import java.net.URLConnection;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -45,20 +45,7 @@ public class ScheduleDownloadController
         try
         {
             Date searchDate = dateFormat.parse(date);
-            List<Schedule> schedules = scheduleRepository.findAll().stream()
-                    .filter((schedule -> {
-                        long diffInMillies = schedule.getDate().getTime() - searchDate.getTime();
-                        long diffInDays = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
-                        return (diffInDays <= 7);
-                    }))
-                    .sorted(new Comparator<Schedule>() {
-                        @Override
-                        public int compare(Schedule o1, Schedule o2)
-                        {
-                            return o1.getDate().compareTo(o2.getDate());
-                        }
-                    })
-                    .collect(Collectors.toList());
+            List<Schedule> schedules = scheduleService.getSchedulesForNextWeekByDate(searchDate);
             scheduleService.createDocument(schedules);
 //            return "redirect:/";
 
