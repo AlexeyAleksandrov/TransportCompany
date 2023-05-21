@@ -26,7 +26,7 @@
             <li th:replace="fragments/navbar::element (${'Расписание'}, @{/schedule/show}, @{/schedule/add}, @{/schedule/edit}, @{/schedule/delete})"></li>
             <li th:replace="fragments/navbar::element (${'Билеты'}, @{/}, @{/}, @{/}, @{/})"></li>
             <li th:replace="fragments/navbar::element (${'Пользователи'}, @{/}, @{/}, @{/}, @{/})"></li>
-            <li><button class="dropbtn" onclick="location.href='/schedule/show'">Скачать расписание</button></li>
+            <li><button class="dropbtn" onclick="location.href='/schedule/download'">Скачать расписание</button></li>
         </ul>
     </nav>
 </div>
