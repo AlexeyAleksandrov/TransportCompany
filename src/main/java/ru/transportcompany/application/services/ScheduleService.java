@@ -2,33 +2,41 @@ package ru.transportcompany.application.services;
 
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFTable;
-import org.apache.poi.xwpf.usermodel.XWPFTableCell;
+import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 import org.springframework.stereotype.Service;
 import ru.transportcompany.application.models.database.Schedule;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigInteger;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 enum Columns
 {
-    DAY_OF_WEEK,
-    ROUTE_NUMBER,
-    POINT_FROM,
-    POINT_TO,
-    TIME_START,
-    TIME_END,
-    COST_FOR_ADULT,
-    COST_FOR_CHILD
+    DATE("Дата отправления"),
+    ROUTE_NUMBER("Номер маршрута"),
+    POINT_FROM("Точка отправления"),
+    POINT_TO("Точка прибытия"),
+    TIME_START("Время отправления"),
+    TIME_END("Время прибытия"),
+    COST_FOR_ADULT("Стоимость билета"),
+    COST_FOR_CHILD("Стоимость детского билета");
+
+    public String columnName;
+
+    Columns(String columnName)
+    {
+        this.columnName = columnName;
+    }
 }
 
 @Service
 public class ScheduleService
 {
-    public void createDocument(List<Schedule> schedules)
+    public void createDocument(List<Schedule> schedules) throws IOException
     {
-        int rows = schedules.size();
+        int rows = schedules.size() + 1;
         int cols = Columns.values().length;
 
         // Create document
@@ -39,6 +47,31 @@ public class ScheduleService
 
         // Set table style
         table.getCTTbl().addNewTblPr().addNewTblW().setW(BigInteger.valueOf(5000));
+
+        // заголовки
+        for (int i = 0; i < cols; i++)
+        {
+            table.getRow(0).getCell(i).setText(Columns.values()[i].columnName);
+        }
+
+        // формируем дату
+        SimpleDateFormat outputDateFormat = new SimpleDateFormat("dd MMMM yyyy");
+
+        // маршруты
+        for (int i = 0; i < schedules.size(); i++)
+        {
+            Schedule schedule = schedules.get(i);
+
+            XWPFTableRow row = table.getRow(i+1);   // 0 строка отдана под заголовки
+            row.getCell(Columns.DATE.ordinal()).setText(outputDateFormat.format(schedule.getDate()));    // дата
+            row.getCell(Columns.ROUTE_NUMBER.ordinal()).setText(schedule.getRoute().getRouteNumber());      // номер маршрута
+            row.getCell(Columns.POINT_FROM.ordinal()).setText(schedule.getRoute().getRouteStartPoint().getPointName());     // точка отправления
+            row.getCell(Columns.POINT_TO.ordinal()).setText(schedule.getRoute().getRouteFinishPoint().getPointName());      // точка прибытия
+            row.getCell(Columns.TIME_START.ordinal()).setText(schedule.getTimeStart().toString());      // время отправления
+            row.getCell(Columns.TIME_END.ordinal()).setText(schedule.getTimeStart().plusMinutes(schedule.getRoute().getRouteTime().longValue()).toString());    // время прибытия
+            row.getCell(Columns.COST_FOR_ADULT.ordinal()).setText(schedule.getRoute().getCostForAdult().toString());    // стоимость для взрослого
+            row.getCell(Columns.COST_FOR_CHILD.ordinal()).setText(schedule.getRoute().getCostForChild().toString());    // стоимость для ребёнка
+        }
 
 //        // Add content to cells
 //        XWPFTableCell cell = table.getRow(0).getCell(0);
@@ -55,15 +88,8 @@ public class ScheduleService
 //        cell.setText("Row 1, Column 3");
 
         // Save document
-        try
-        {
             FileOutputStream outputStream = new FileOutputStream("C:\\Users\\Public\\document.docx");
             document.write(outputStream);
             outputStream.close();
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
     }
 }
