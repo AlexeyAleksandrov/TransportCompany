@@ -8,24 +8,25 @@
     <div class="clear"></div>
 
     <div class="card edit_block">
-        <h2 class="input_header">Редактирование водителя</h2>
+        <h2 class="input_header">Редактирование билетов</h2>
         <div class="card-header">
-            <table th:if="${#lists.size(drivers) > 0}">
+            <table th:if="${#lists.size(tickets) > 0}">
                 <tr>
-                    <th class="td_input">Имя</th>
-                    <th class="td_input">Фамилия</th>
-                    <th class="td_input">Отчество</th>
+                    <th class="td_input">Номер билета</th>
+                    <th class="td_input">Дата</th>
+                    <th class="td_input">Номер маршрута</th>
+                    <th class="td_input">Время отправления</th>
                     <th class="td_input">Редактировать</th>
                 </tr>
-                <!--/*@thymesVar id="d" type="ru.transportcompany.application.models.database.Driver"*/-->
-                <tr th:each="d : ${drivers}">
-                    <td th:text="${d.lastName}" class="td_input">Подорожников</td>
-                    <td th:text="${d.firstName}" class="td_input">Иван</td>
-                    <td th:text="${d.patronymic}" class="td_input">Подорожников</td>
-                    <td><a th:href="@{'/drivers/edit/' + ${d.id}}" class="btn btn-primary">Редактировать</a></td>
+                <tr th:each="t: ${tickets}">
+                    <td th:text="${t.id}" class="td_input">Номер билета</td>
+                    <td th:text="${t.schedule.get_dd_MMMM_yyyy_FormatDate()}" class="td_input">Дата</td>
+                    <td th:text="${t.schedule.route.routeNumber}" class="td_input">Номер маршрута</td>
+                    <td th:text="${t.schedule.timeStart.toString()}" class="td_input">Время отправления</td>
+                    <td><a th:href="@{'/tickets/edit/' + ${t.id}}" class="btn btn-primary">Редактировать</a></td>
                 </tr>
             </table>
-            <p th:if="${#lists.size(drivers) == 0}">На предприятии отсутствуют водители!</p>
+            <p th:if="${#lists.size(tickets) == 0}">На данный момент не продано ни одного билета!</p>
         </div>
     </div>
 </main>
