@@ -3,10 +3,7 @@ package ru.transportcompany.application.controllers.database;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import ru.transportcompany.application.models.database.Schedule;
 import ru.transportcompany.application.models.database.Ticket;
 import ru.transportcompany.application.repositories.ScheduleRepository;
@@ -51,5 +48,36 @@ public class TicketsController
     {
         ticketsRepository.save(ticket);
         return "redirect:/tickets/show";
+    }
+
+    @GetMapping("/edit")
+    public String editTicketPage(Model model)
+    {
+        List<Ticket> tickets = ticketsRepository.findAll();
+        model.addAttribute("tickets", tickets);
+        return "tickets/edit";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String editTicketItemPage(@PathVariable Long id, Model model)
+    {
+        Ticket ticket = ticketsRepository.findById(id).orElseThrow();
+        model.addAttribute("ticket", ticket);
+
+        Date nowDate = new Date();   // сегодняшняя дата
+        List<Schedule> schedules = scheduleRepository.findAll().stream()
+                .filter((schedule -> schedule.getDate().getTime() >= nowDate.getTime()))
+                .collect(Collectors.toList());      // выбираем все маршруты, которые доступны
+
+        model.addAttribute("schedules", schedules);
+        return "tickets/edit_item";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String editTicketItem(@PathVariable Long id, @ModelAttribute("ticket") Ticket ticket)
+    {
+        ticket.setId(id);
+        ticketsRepository.save(ticket);
+        return "redirect:/tickets/edit";
     }
 }
