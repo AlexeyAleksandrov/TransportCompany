@@ -8,27 +8,25 @@
     <div class="clear"></div>
 
     <div class="card edit_block">
-        <h2 class="input_header">Добавление водителя</h2>
+        <h2 class="input_header">Добавление билета</h2>
         <div class="card-header">
-            <!--/*@thymesVar id="driver" type="ru.transportcompany.application.models.database.Driver"*/-->
-            <form name="driver" th:action="@{/drivers/add}" th:object="${driver}" th:method="POST">
-                <table>
+            <form name="driver" th:action="@{/tickets/add}" th:object="${ticket}" th:method="POST">
+                <table th:if="${schedules.size() > 0}">
                     <tr>
-                        <td class="td_input"><label for="firstName">Имя:</label></td>
-                        <td class="td_input"><input type="text" id="firstName" name="firstName" th:field="*{firstName}" th:value="*{firstName}"/></td>
-                    </tr>
-                    <tr>
-                        <td class="td_input"><label for="lastName">Фамилия:</label></td>
-                        <td class="td_input"><input type="text" id="lastName" name="lastName" th:field="*{lastName}" th:value="*{lastName}"/></td>
-                    </tr>
-                    <tr>
-                        <td class="td_input"><label for="patronymic">Отчество:</label></td>
-                        <td class="td_input"><input type="text" id="patronymic" name="patronymic" th:field="*{patronymic}"  th:value="*{patronymic}"/></td>
+                        <td>Маршрут</td>
+                        <td>
+                            <select th:field="*{schedule}" size="1">
+                                <option th:each="s: ${schedules}" th:value="${s.id}" th:text="${s.get_dd_MMMM_yyyy_FormatDate() + ' ' + s.route.getRouteNumber() + ' ' + s.getTimeStart()}"></option>
+                            </select>
+                        </td>
                     </tr>
                     <tr>
                         <td class="td_input" colSpan="2"><input type="submit" class="btn btn-primary" value="Добавить"></td>
                     </tr>
                 </table>
+                <div th:if="${schedules.isEmpty()}">
+                    <p>На текущую неделю нет ни одного маршрута!</p>
+                </div>
             </form>
         </div>
     </div>

@@ -5,6 +5,7 @@ import ru.transportcompany.application.models.database.Route;
 import ru.transportcompany.application.models.database.Transport;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.util.Date;
 
@@ -31,4 +32,10 @@ public class Schedule
 
     @Column(name = "date")
     private Date date;
+
+    public String get_dd_MMMM_yyyy_FormatDate()
+    {
+        SimpleDateFormat outputDateFormat = new SimpleDateFormat("dd MMMM yyyy");
+        return outputDateFormat.format(this.date);
+    }
 }

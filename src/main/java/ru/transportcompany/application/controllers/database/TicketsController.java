@@ -39,7 +39,7 @@ public class TicketsController
 
         Date nowDate = new Date();   // сегодняшняя дата
         List<Schedule> schedules = scheduleRepository.findAll().stream()
-                .filter((schedule -> schedule.getDate().after(nowDate)))
+                .filter((schedule -> schedule.getDate().getTime() >= nowDate.getTime()))
                 .collect(Collectors.toList());      // выбираем все маршруты, которые доступны
 
         model.addAttribute("schedules", schedules);
