@@ -80,4 +80,19 @@ public class TicketsController
         ticketsRepository.save(ticket);
         return "redirect:/tickets/edit";
     }
+
+    @GetMapping("/delete")
+    public String deleteTicketPage(Model model)
+    {
+        List<Ticket> tickets = ticketsRepository.findAll();
+        model.addAttribute("tickets", tickets);
+        return "tickets/delete";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteTicketById(@PathVariable Long id)
+    {
+        ticketsRepository.deleteById(id);
+        return "redirect:/tickets/delete";
+    }
 }
