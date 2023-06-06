@@ -23,7 +23,7 @@
                     <td th:text="${t.govNumber}" class="td_input">Гос. Номер</td>
                     <td th:text="${t.carBrand}" class="td_input">Марка т/с</td>
                     <td th:text="${t.seatsCount}" class="td_input">Кол-во мест</td>
-                    <td th:text="${t.driver.getFio()}" class="td_input">Водитель</td>
+                    <td th:text="${t.driver.getFioShort()}" class="td_input">Водитель</td>
                 </tr>
             </table>
             <p th:if="${#lists.size(transports) == 0}">На предприятии отсутствует транспорт!</p>

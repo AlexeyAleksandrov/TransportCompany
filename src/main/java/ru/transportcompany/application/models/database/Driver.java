@@ -86,4 +86,9 @@ public class Driver
     {
         return lastName + " " + firstName + " " + patronymic;
     }
+
+    public String getFioShort()
+    {
+        return lastName + " " + firstName.charAt(0) + "." + patronymic.charAt(0) + ".";
+    }
 }

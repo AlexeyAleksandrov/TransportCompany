@@ -35,7 +35,7 @@
                         <td class="td_input"><input type="number" th:field="${transport.seatsCount}" th:value="${transport.seatsCount}"></td>
                     </tr>
                     <tr>
-                        <td class="td_input"><label>Тип транспорта:</label></td>
+                        <td class="td_input"><label>Водитель:</label></td>
                         <td class="td_input">
                             <select th:if="${#lists.size(drivers) > 0}" th:field="${transport.driver}" size="1">
                                 <option th:each="d: ${drivers}" th:text="${d.getFio()}" th:value="${d.id}"></option>
