@@ -90,7 +90,7 @@ public class ScheduleService
                 .filter((schedule -> {
                     long diffInMillies = schedule.getDate().getTime() - searchDate.getTime();
                     long diffInDays = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
-                    return (diffInDays <= 7);
+                    return (diffInDays <= 7 && (searchDate.compareTo(schedule.getDate()) <= 0));
                 }))
                 .sorted(new Comparator<Schedule>() {
                     @Override

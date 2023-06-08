@@ -8,26 +8,73 @@ ALTER TABLE routes ADD CONSTRAINT check_route_cost_for_child_to_adult CHECK ( ro
 -- транспорт
 ALTER TABLE transports ADD CONSTRAINT check_seats_count CHECK ( seats_count > 0 );  -- кол-во посадочных мест
 
+-- ====================================================================
+
+-- -. Триггер для проверки того, что количество проданных на рейс билетов
+-- не превышает количество мест в автобусе/микроавтобусе.
+
+SELECT COUNT(*) AS cnt, (COUNT(*) > t2.seats_count) AS isgt, t.schedule AS sched, route_number, schedule.date, seats_count
+FROM schedule
+JOIN tickets t ON schedule.id = t.schedule
+JOIN transports t2 ON t2.id = schedule.transport
+JOIN routes r ON r.id = schedule.route
+GROUP BY t.schedule, schedule.date, route_number, t2.seats_count;
+
+SELECT s.id, COUNT(*) >= (SELECT transports.seats_count FROM transports WHERE s.transport = transports.id) AS isgt
+FROM tickets
+JOIN schedule s ON s.id = tickets.schedule
+JOIN transports t ON t.id = s.transport
+GROUP BY s.id;
+
+SELECT tickets.id, isgt
+FROM tickets
+    JOIN (
+        SELECT s.id, COUNT(*) >= t.seats_count AS isgt
+        FROM tickets
+            JOIN schedule s ON s.id = tickets.schedule
+            JOIN transports t ON t.id = s.transport
+        GROUP BY s.id, t.seats_count) s ON tickets.schedule = s.id;
+
+SELECT isgt FROM (SELECT tickets.id AS t_id, isgt
+               FROM tickets
+                        JOIN (
+                   SELECT s.id, COUNT(*) >= t.seats_count AS isgt
+                   FROM tickets
+                            JOIN schedule s ON s.id = tickets.schedule
+                            JOIN transports t ON t.id = s.transport
+                   GROUP BY s.id, t.seats_count) s ON tickets.schedule = s.id) as tii
+    WHERE t_id = 4;
+
+-- ====================================================================
+
 -- 1. Триггер для проверки того, что количество проданных на рейс билетов
 -- не превышает количество мест в автобусе/микроавтобусе.
 
-CREATE OR REPLACE FUNCTION check_tickets_count_trigger()
-RETURNS RECORD AS
-    $$
-    DECLARE
-        shed RECORD;
-    BEGIN
-        shed = (SELECT * FROM schedule
-            LEFT JOIN tickets t ON schedule.id = t.schedule
-            LEFT JOIN transports t2 ON t2.id = schedule.transport
-            LEFT JOIN transport_types tt ON tt.id = t2.transport_type
-            GROUP BY schedule.id);
+DROP TRIGGER check_tickets_count_trigger ON tickets;
+DROP FUNCTION check_tickets_count();
 
-        RETURN shed;
+CREATE OR REPLACE FUNCTION check_tickets_count()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF(SELECT isgt
+               FROM (SELECT COUNT(*) AS cnt, (COUNT(*) >= t2.seats_count) AS isgt, t.schedule AS sched, route_number, schedule.date, seats_count
+        FROM schedule
+        JOIN tickets t ON schedule.id = t.schedule
+        JOIN transports t2 ON t2.id = schedule.transport
+        JOIN routes r ON r.id = schedule.route
+                                GROUP BY t.schedule, schedule.date, route_number, t2.seats_count) as stt2r
+        WHERE sched = new.schedule) THEN
+        RAISE EXCEPTION 'На данный рейс продано максимальное кол-во билетов!';
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
 
-    END;
-    $$
-LANGUAGE plpgsql;
+CREATE TRIGGER check_tickets_count_trigger
+    BEFORE INSERT ON tickets
+    FOR EACH ROW EXECUTE PROCEDURE check_tickets_count();
+
+INSERT INTO tickets (schedule) VALUES (7);
 
 -- 2. Триггер для проверки правильности формирования гос.номера транспортного средства в соответствии с установленной маской.
 

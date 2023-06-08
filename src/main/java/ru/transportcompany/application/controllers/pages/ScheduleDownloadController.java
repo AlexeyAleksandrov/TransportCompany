@@ -38,13 +38,14 @@ public class ScheduleDownloadController
     }
 
     @PostMapping("/download")
-    public String downloadSchedule(@RequestParam("date") String date, HttpServletRequest request, HttpServletResponse response, Model model)
+    public void downloadSchedule(@RequestParam("date") String date, HttpServletRequest request, HttpServletResponse response, Model model)
     {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 //        Date searchDate = new Date();
         try
         {
             Date searchDate = dateFormat.parse(date);
+            System.out.println("download date: " + searchDate);
             List<Schedule> schedules = scheduleService.getSchedulesForNextWeekByDate(searchDate);
             scheduleService.createDocument(schedules);
 //            return "redirect:/";
@@ -85,19 +86,19 @@ public class ScheduleDownloadController
 
                 FileCopyUtils.copy(inputStream, response.getOutputStream());
             }
-            return "redirect:/";
+//            return "redirect:/";
         }
         catch (ParseException e)
         {
             e.printStackTrace();
             model.addAttribute("date_error", "Некорректная дата");
-            return "schedule/download";
+//            return "schedule/download";
         }
         catch (IOException e)
         {
             e.printStackTrace();
             model.addAttribute("file_error", "Не удалось сформировать файл!");
-            return "schedule/download";
+//            return "schedule/download";
         }
     }
 }
