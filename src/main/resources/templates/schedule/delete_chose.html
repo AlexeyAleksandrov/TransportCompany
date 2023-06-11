@@ -11,7 +11,7 @@
     <div class="card input_block_big">
         <h2 class="input_header">Расписание транспорта</h2>
         <div class="card-header">
-            <form th:action="@{/schedule/edit/}" th:method="POST">
+            <form th:action="@{/schedule/delete/}" th:method="POST">
                 <label>Выберите дату:<input type="date" id="date" name="date" th:value="${date}"></label>
                 <input type="submit" value="Выбрать">
             </form>
@@ -19,7 +19,7 @@
     </div>
     <div th:if="routes">
         <div th:if="${schedules != null}">
-            <div class="card input_block_big">
+            <div class="card input_block_super_big">
                 <h2 class="input_header" th:text="${'Удаление расписания на дату ' + search_date}">Список маршрутов на дату</h2>
                 <div class="card-header">
                     <table th:if="${#lists.size(schedules) > 0}">
@@ -31,7 +31,7 @@
                             <th class="td_input">Интервал движения</th>
                             <th class="td_input">Стоимость для взрослого</th>
                             <th class="td_input">Стоимость для ребёнка</th>
-                            <th class="td_input">Редактировать</th>
+                            <th class="td_input">Удалить</th>
                         </tr>
                         <tr th:each="s: ${schedules}">
                             <!--/*@thymesVar id="r" type="ru.transportcompany.application.models.database.Route"*/-->
