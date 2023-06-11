@@ -1,6 +1,7 @@
 package ru.transportcompany.application.controllers.database;
 
 import lombok.AllArgsConstructor;
+import org.hibernate.type.LocalDateTimeType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -8,10 +9,9 @@ import ru.transportcompany.application.models.database.Schedule;
 import ru.transportcompany.application.models.database.Ticket;
 import ru.transportcompany.application.repositories.ScheduleRepository;
 import ru.transportcompany.application.repositories.TicketsRepository;
+import ru.transportcompany.application.services.ScheduleService;
 
-import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/tickets")
@@ -20,6 +20,7 @@ public class TicketsController
 {
     private TicketsRepository ticketsRepository;
     private ScheduleRepository scheduleRepository;
+    private ScheduleService scheduleService;
 
     @GetMapping("/show")
     public String showPage(Model model)
@@ -34,10 +35,7 @@ public class TicketsController
     {
         model.addAttribute("ticket", new Ticket());
 
-        Date nowDate = new Date();   // сегодняшняя дата
-        List<Schedule> schedules = scheduleRepository.findAll().stream()
-                .filter((schedule -> schedule.getDate().getTime() >= nowDate.getTime()))
-                .collect(Collectors.toList());      // выбираем все маршруты, которые доступны
+        List<Schedule> schedules = scheduleService.getActualSchedules();      // выбираем все маршруты, которые доступны
 
         model.addAttribute("schedules", schedules);
         return "tickets/add";
@@ -64,10 +62,7 @@ public class TicketsController
         Ticket ticket = ticketsRepository.findById(id).orElseThrow();
         model.addAttribute("ticket", ticket);
 
-        Date nowDate = new Date();   // сегодняшняя дата
-        List<Schedule> schedules = scheduleRepository.findAll().stream()
-                .filter((schedule -> schedule.getDate().getTime() >= nowDate.getTime()))
-                .collect(Collectors.toList());      // выбираем все маршруты, которые доступны
+        List<Schedule> schedules = scheduleService.getActualSchedules();      // выбираем все маршруты, которые доступны
 
         model.addAttribute("schedules", schedules);
         return "tickets/edit_item";

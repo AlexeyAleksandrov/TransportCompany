@@ -38,4 +38,16 @@ public class Schedule
         SimpleDateFormat outputDateFormat = new SimpleDateFormat("dd MMMM yyyy");
         return outputDateFormat.format(this.date);
     }
+
+    public LocalTime getTimeEnd()
+    {
+        return timeStart.plusMinutes(route.getRouteTime().longValue());
+    }
+
+    public Date getDate()
+    {
+        date.setHours(timeStart.getHour());
+        date.setMinutes(timeStart.getMinute());
+        return date;
+    }
 }

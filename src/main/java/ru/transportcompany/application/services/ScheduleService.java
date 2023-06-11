@@ -1,5 +1,6 @@
 package ru.transportcompany.application.services;
 
+import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFTable;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import ru.transportcompany.application.models.database.Schedule;
 import ru.transportcompany.application.models.enums.ScheduleDocumentTableColumns;
 import ru.transportcompany.application.repositories.ScheduleRepository;
+import ru.transportcompany.application.repositories.TicketsRepository;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -24,6 +26,7 @@ import java.util.stream.Collectors;
 public class ScheduleService
 {
     private ScheduleRepository scheduleRepository;
+    private TicketsRepository ticketsRepository;
 
     public void createDocument(List<Schedule> schedules) throws IOException
     {
@@ -59,24 +62,10 @@ public class ScheduleService
             row.getCell(ScheduleDocumentTableColumns.POINT_FROM.ordinal()).setText(schedule.getRoute().getRouteStartPoint().getPointName());     // точка отправления
             row.getCell(ScheduleDocumentTableColumns.POINT_TO.ordinal()).setText(schedule.getRoute().getRouteFinishPoint().getPointName());      // точка прибытия
             row.getCell(ScheduleDocumentTableColumns.TIME_START.ordinal()).setText(schedule.getTimeStart().toString());      // время отправления
-            row.getCell(ScheduleDocumentTableColumns.TIME_END.ordinal()).setText(schedule.getTimeStart().plusMinutes(schedule.getRoute().getRouteTime().longValue()).toString());    // время прибытия
+            row.getCell(ScheduleDocumentTableColumns.TIME_END.ordinal()).setText(schedule.getTimeEnd().toString());    // время прибытия
             row.getCell(ScheduleDocumentTableColumns.COST_FOR_ADULT.ordinal()).setText(schedule.getRoute().getCostForAdult().toString());    // стоимость для взрослого
             row.getCell(ScheduleDocumentTableColumns.COST_FOR_CHILD.ordinal()).setText(schedule.getRoute().getCostForChild().toString());    // стоимость для ребёнка
         }
-
-//        // Add content to cells
-//        XWPFTableCell cell = table.getRow(0).getCell(0);
-//        cell.setText("Header 1");
-//        cell = table.getRow(0).getCell(1);
-//        cell.setText("Header 2");
-//        cell = table.getRow(0).getCell(2);
-//        cell.setText("Header 3");
-//        cell = table.getRow(1).getCell(0);
-//        cell.setText("Row 1, Column 1");
-//        cell = table.getRow(1).getCell(1);
-//        cell.setText("Row 1, Column 2");
-//        cell = table.getRow(1).getCell(2);
-//        cell.setText("Row 1, Column 3");
 
         // Save document
             FileOutputStream outputStream = new FileOutputStream("C:\\Users\\Public\\document.docx");
@@ -91,6 +80,10 @@ public class ScheduleService
                     long diffInMillies = schedule.getDate().getTime() - searchDate.getTime();
                     long diffInDays = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
                     return (diffInDays <= 7 && (searchDate.compareTo(schedule.getDate()) <= 0));
+
+//                    LocalDateTime searchDateTime = LocalDateTime.of(searchDate.getYear(), searchDate.getMonth(), searchDate.getDate(), 0, 0);
+//                    LocalDateTime scheduleDateTime = LocalDateTime.of(LocalDate.of(schedule.getDate().getYear(), schedule.getDate().getMonth(), schedule.getDate().getDate()), schedule.getTimeStart());
+//                    return scheduleDateTime.isAfter(searchDateTime) && scheduleDateTime.isBefore(searchDateTime.plusDays(7));
                 }))
                 .sorted(new Comparator<Schedule>() {
                     @Override
@@ -101,4 +94,33 @@ public class ScheduleService
                 })
                 .collect(Collectors.toList());
     }
+
+    public int getEmptySeatsCount(@NotNull Schedule schedule)
+    {
+        return ticketsRepository.countBySchedule(schedule);
+    }
+
+    /**
+     * @return список всех актуальных маршрутов, которые доступны сейчас
+     */
+    public List<Schedule> getActualSchedules()
+    {
+        Date nowDate = new Date();
+        return scheduleRepository.findAll().stream()
+                .filter((schedule ->
+                {
+//                    LocalDateTime scheduleDateTime = LocalDateTime.of(LocalDate.of(1900 + schedule.getDate().getYear(), schedule.getDate().getMonth(), schedule.getDate().getDate()), schedule.getTimeStart());
+//                    LocalDateTime nowDateTime = LocalDateTime.of(LocalDate.now(), LocalTime.now());
+//                    System.out.println("scheduleDateTime: " + scheduleDateTime);
+//                    System.out.println("nowDateTime: " + nowDateTime);
+//                    System.out.println("scheduleDateTime: " + scheduleDateTime.isAfter(nowDateTime) + " nowDateTime");
+//                    return nowDateTime.isBefore(scheduleDateTime);
+
+//                    System.out.println(schedule.getDate() + " " + schedule.getDate().compareTo(nowDate) + " " +  nowDate);
+                    return schedule.getDate().compareTo(nowDate) >= 0;
+                }))
+                .collect(Collectors.toList());      // выбираем все маршруты, которые доступны
+    }
+
+
 }

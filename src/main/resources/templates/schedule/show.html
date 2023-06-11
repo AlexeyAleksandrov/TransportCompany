@@ -28,9 +28,12 @@
                             <th class="td_input">Точка отправления</th>
                             <th class="td_input">Точка прибытия</th>
                             <th class="td_input">Время отправления</th>
+                            <th class="td_input">Время прибытия</th>
                             <th class="td_input">Интервал движения</th>
                             <th class="td_input">Стоимость для взрослого</th>
                             <th class="td_input">Стоимость для ребёнка</th>
+                            <th class="td_input">Всего мест</th>
+                            <th class="td_input">Свободно мест</th>
                         </tr>
                         <tr th:each="s: ${schedules}">
                             <!--/*@thymesVar id="r" type="ru.transportcompany.application.models.database.Route"*/-->
@@ -38,9 +41,12 @@
                             <td th:text="${s.route.routeStartPoint.pointName}" class="td_input">Точка отправления</td>
                             <td th:text="${s.route.routeFinishPoint.pointName}" class="td_input">Точка прибытия</td>
                             <td th:text="${s.timeStart.toString()}" class="td_input">Время отправления</td>
+                            <td th:text="${s.getTimeEnd().toString()}" class="td_input">Время прибытия</td>
                             <td th:text="${s.route.routeInterval.intervalName}" class="td_input">Интервал движения</td>
                             <td th:text="${s.route.costForAdult + ' рублей'}" class="td_input">Стоимость для взрослого</td>
                             <td th:text="${s.route.costForChild + ' рублей'}" class="td_input">Стоимость для ребёнка</td>
+                            <td th:text="${s.transport.seatsCount}" class="td_input">Всего мест</td>
+                            <td th:text="${s.transport.seatsCount - schedule_service.getEmptySeatsCount(s)}" class="td_input">Свободно мест</td>
                         </tr>
                     </table>
                     <p th:if="${#lists.size(schedules) == 0}">На выбранную дату не найдено ни одного маршрута!</p>

@@ -11,6 +11,7 @@ import ru.transportcompany.application.repositories.RouteRepository;
 import ru.transportcompany.application.repositories.ScheduleRepository;
 import ru.transportcompany.application.repositories.TransportRepository;
 import ru.transportcompany.application.services.RoutesService;
+import ru.transportcompany.application.services.ScheduleService;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -30,8 +31,8 @@ public class ScheduleController
 {
     private ScheduleRepository scheduleRepository;
     private RoutesService routesService;
-    private RouteRepository routeRepository;
     private TransportRepository transportRepository;
+    private ScheduleService scheduleService;
 
     @GetMapping(value = "/show")
     public String show(Model model)
@@ -76,6 +77,7 @@ public class ScheduleController
         finally
         {
             model.addAttribute("schedules", schedules);
+            model.addAttribute("schedule_service", scheduleService);
         }
 
         return "schedule/show";
