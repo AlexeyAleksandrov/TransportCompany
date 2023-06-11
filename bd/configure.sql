@@ -13,7 +13,7 @@ ALTER TABLE transports ADD CONSTRAINT check_seats_count CHECK ( seats_count > 0 
 -- -. Триггер для проверки того, что количество проданных на рейс билетов
 -- не превышает количество мест в автобусе/микроавтобусе.
 
-SELECT COUNT(*) AS cnt, (COUNT(*) > t2.seats_count) AS isgt, t.schedule AS sched, route_number, schedule.date, seats_count
+SELECT COUNT(*) AS cnt, (COUNT(*) >= t2.seats_count) AS isgt, t.schedule AS sched, route_number, schedule.date, seats_count
 FROM schedule
 JOIN tickets t ON schedule.id = t.schedule
 JOIN transports t2 ON t2.id = schedule.transport

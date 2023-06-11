@@ -32,6 +32,12 @@ nav {
     margin-right: auto;
 }
 
+.input_block_super_big {
+    width: 35%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .td_input {
     padding: 3px;
 }

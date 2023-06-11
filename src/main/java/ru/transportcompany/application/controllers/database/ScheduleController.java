@@ -58,6 +58,14 @@ public class ScheduleController
 
             // маршруты
             schedules = scheduleRepository.findAllByDate(searchDate);
+            List<Route> routesForDay = routesService.getRoutesForDate(searchDate);
+            List<Schedule> finalSchedules = schedules;
+            List<Route> notFlightRoutesForDay = routesForDay.stream()
+                    .filter(route -> finalSchedules.stream()
+                            .noneMatch(schedule -> schedule.getRoute().getId()
+                                    .equals(route.getId())))
+                    .collect(Collectors.toList());      // ищем маршруты, которые должны быть в этот день, но на них отсутствуют рейсы
+            model.addAttribute("not_flight_routes", notFlightRoutesForDay);
         }
         catch (ParseException e)
         {

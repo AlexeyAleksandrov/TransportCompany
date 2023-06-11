@@ -20,8 +20,7 @@ public class RoutesService
     {
         // ищем подходящие маршруты
         return routeRepository.findAll().stream().filter(route -> {
-            String name = route.getRouteInterval().getIntervalName();   // интервал движения
-            switch (name)
+            switch (route.getRouteInterval().getIntervalName()) // интервал движения
             {
                 case "ежедневно" -> {
                     return true;    // любой день подходит
