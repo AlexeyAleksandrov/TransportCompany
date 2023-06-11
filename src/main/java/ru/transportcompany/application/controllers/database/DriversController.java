@@ -5,9 +5,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.transportcompany.application.models.database.Driver;
+import ru.transportcompany.application.models.database.Schedule;
 import ru.transportcompany.application.repositories.DriverRepository;
+import ru.transportcompany.application.services.ScheduleService;
 
 import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
@@ -16,6 +19,7 @@ import java.util.stream.Collectors;
 public class DriversController
 {
     DriverRepository driverRepository;
+    ScheduleService scheduleService;
 
     @GetMapping("/add")
     public String getAddDriverPage(Model model)
@@ -72,5 +76,15 @@ public class DriversController
     {
         driverRepository.deleteById(id);
         return "redirect:/drivers/delete";
+    }
+
+    @GetMapping("/schedule/{id}")
+    public String schedule(@PathVariable Long id, Model model)
+    {
+        Driver driver = driverRepository.getById(id);
+        List<Schedule> schedules = scheduleService.getSchedulesForDriverOnMonth(driver);
+        model.addAttribute("driver", driver);
+        model.addAttribute("schedules", schedules);
+        return "drivers/schedule";
     }
 }

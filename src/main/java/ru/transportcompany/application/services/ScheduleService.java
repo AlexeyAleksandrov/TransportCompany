@@ -6,6 +6,7 @@ import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFTable;
 import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 import org.springframework.stereotype.Service;
+import ru.transportcompany.application.models.database.Driver;
 import ru.transportcompany.application.models.database.Schedule;
 import ru.transportcompany.application.models.enums.ScheduleDocumentTableColumns;
 import ru.transportcompany.application.repositories.ScheduleRepository;
@@ -122,5 +123,20 @@ public class ScheduleService
                 .collect(Collectors.toList());      // выбираем все маршруты, которые доступны
     }
 
-
+    public List<Schedule> getSchedulesForDriverOnMonth(Driver driver)
+    {
+        Date nowDate = new Date();
+        return scheduleRepository.findAll().stream()
+                .filter(schedule -> schedule.getTransport().getDriver().getId().equals(driver.getId()))     // ищем по водителю
+                .filter(schedule -> schedule.getDate().getYear() == nowDate.getYear())     // год совпадает
+                .filter(schedule -> schedule.getDate().getMonth() == nowDate.getMonth())        // месяц совпадает
+                .sorted(new Comparator<Schedule>() {
+                    @Override
+                    public int compare(Schedule o1, Schedule o2)
+                    {
+                        return o1.getDate().compareTo(o2.getDate());
+                    }
+                })
+                .collect(Collectors.toList());
+    }
 }
