@@ -21,6 +21,15 @@
                         </td>
                     </tr>
                     <tr>
+                        <td>Тип билета</td>
+                        <td>
+                            <select th:field="*{type}" size="1">
+                                <option value="0">Взрослый</option>
+                                <option value="1">Детский</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
                         <td class="td_input" colSpan="2"><input type="submit" class="btn btn-primary" value="Добавить"></td>
                     </tr>
                 </table>

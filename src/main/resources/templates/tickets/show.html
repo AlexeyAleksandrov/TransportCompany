@@ -7,7 +7,7 @@
 <main>
     <div class="clear"></div>
 
-    <div class="card input_block" th:object="${tickets}">
+    <div class="card input_block_big" th:object="${tickets}">
         <h2 class="input_header">Список проданных билетов</h2>
         <div class="card-header">
             <table th:if="${#lists.size(tickets) > 0}">
@@ -16,12 +16,14 @@
                     <th class="td_input">Дата</th>
                     <th class="td_input">Номер маршрута</th>
                     <th class="td_input">Время отправления</th>
+                    <th class="td_input">Тип билета</th>
                 </tr>
                 <tr th:each="t: ${tickets}">
                     <td th:text="${t.id}" class="td_input"></td>
                     <td th:text="${t.schedule.get_dd_MMMM_yyyy_FormatDate()}" class="td_input"></td>
                     <td th:text="${t.schedule.route.routeNumber}" class="td_input"></td>
                     <td th:text="${t.schedule.timeStart}" class="td_input"></td>
+                    <td th:text="${t.type == 0 ? 'взрослый' : 'детский'}" class="td_input"></td>
                 </tr>
             </table>
             <p th:if="${#lists.size(tickets) == 0}">На данный момент не продано ни одного билета!</p>

@@ -7,7 +7,7 @@
 <main>
     <div class="clear"></div>
 
-    <div class="card edit_block">
+    <div class="card edit_block_big">
         <h2 class="input_header">Удаление билетов</h2>
         <div class="card-header">
             <table th:if="${#lists.size(tickets) > 0}">
@@ -16,6 +16,7 @@
                     <th class="td_input">Дата</th>
                     <th class="td_input">Номер маршрута</th>
                     <th class="td_input">Время отправления</th>
+                    <th class="td_input">Тип билета</th>
                     <th class="td_input">Удалить</th>
                 </tr>
                 <tr th:each="t: ${tickets}">
@@ -23,6 +24,7 @@
                     <td th:text="${t.schedule.get_dd_MMMM_yyyy_FormatDate()}" class="td_input">Дата</td>
                     <td th:text="${t.schedule.route.routeNumber}" class="td_input">Номер маршрута</td>
                     <td th:text="${t.schedule.timeStart.toString()}" class="td_input">Время отправления</td>
+                    <td th:text="${t.type == 0 ? 'взрослый' : 'детский'}" class="td_input"></td>
                     <td><a th:href="@{'/tickets/delete/' + ${t.id}}" class="btn btn-danger">Удалить</a></td>
                 </tr>
             </table>
