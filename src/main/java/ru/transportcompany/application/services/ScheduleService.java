@@ -80,12 +80,13 @@ public class ScheduleService
                 .filter((schedule -> {
                     long diffInMillies = schedule.getDate().getTime() - searchDate.getTime();
                     long diffInDays = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
-                    return (diffInDays <= 7 && (searchDate.compareTo(schedule.getDate()) <= 0));
+                    return (diffInDays < 7 && (searchDate.compareTo(schedule.getDate()) <= 0));
 
 //                    LocalDateTime searchDateTime = LocalDateTime.of(searchDate.getYear(), searchDate.getMonth(), searchDate.getDate(), 0, 0);
 //                    LocalDateTime scheduleDateTime = LocalDateTime.of(LocalDate.of(schedule.getDate().getYear(), schedule.getDate().getMonth(), schedule.getDate().getDate()), schedule.getTimeStart());
 //                    return scheduleDateTime.isAfter(searchDateTime) && scheduleDateTime.isBefore(searchDateTime.plusDays(7));
                 }))
+                .filter(schedule -> getEmptySeatsCount(schedule) > (schedule.getTransport().getSeatsCount() / 2))   // продано более 50% билетов
                 .sorted(new Comparator<Schedule>() {
                     @Override
                     public int compare(Schedule o1, Schedule o2)
