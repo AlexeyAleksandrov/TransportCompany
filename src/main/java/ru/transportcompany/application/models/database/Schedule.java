@@ -35,8 +35,13 @@ public class Schedule
 
     public String get_dd_MMMM_yyyy_FormatDate()
     {
+        return get_dd_MMMM_yyyy_FormatDate(date);
+    }
+
+    public static String get_dd_MMMM_yyyy_FormatDate(Date date)
+    {
         SimpleDateFormat outputDateFormat = new SimpleDateFormat("dd MMMM yyyy");
-        return outputDateFormat.format(this.date);
+        return outputDateFormat.format(date);
     }
 
     public LocalTime getTimeEnd()

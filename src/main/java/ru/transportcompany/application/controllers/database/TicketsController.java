@@ -11,7 +11,12 @@ import ru.transportcompany.application.repositories.ScheduleRepository;
 import ru.transportcompany.application.repositories.TicketsRepository;
 import ru.transportcompany.application.services.ScheduleService;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/tickets")
@@ -89,5 +94,35 @@ public class TicketsController
     {
         ticketsRepository.deleteById(id);
         return "redirect:/tickets/delete";
+    }
+
+    @PostMapping ("/sum")
+    public String getSumSailedTickets(@RequestParam String date, Model model)
+    {
+        try
+        {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date searchDate = dateFormat.parse(date);
+
+            model.addAttribute("date", searchDate);
+
+            // ищем подходящие маршруты на выбранный день
+            Integer sum = ticketsRepository.findAll().stream()
+                    .filter(ticket -> ticket.getSchedule().get_dd_MMMM_yyyy_FormatDate().equals(Schedule.get_dd_MMMM_yyyy_FormatDate(searchDate)))      // сравниваем текстовый формат даты
+                    .collect(Collectors.toList()).stream()
+                    .mapToInt(ticket -> ticket.getType() == 0 ? ticket.getSchedule().getRoute().getCostForAdult() : ticket.getSchedule().getRoute().getCostForChild())
+                    .sum();
+
+            model.addAttribute("sum", sum);
+
+            // формируем дату
+            SimpleDateFormat outputDateFormat = new SimpleDateFormat("dd MMMM yyyy");
+            model.addAttribute("search_date", outputDateFormat.format(searchDate));
+        }
+        catch (ParseException e)
+        {
+            model.addAttribute("date_error", "Указана некорректная дата!");
+        }
+        return "tickets/sum";
     }
 }

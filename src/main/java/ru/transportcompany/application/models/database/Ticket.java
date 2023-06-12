@@ -20,4 +20,7 @@ public class Ticket
 
     @Column(name = "user_id")
     private Long userId;
+
+    @Column(name = "type")
+    private int type;
 }
