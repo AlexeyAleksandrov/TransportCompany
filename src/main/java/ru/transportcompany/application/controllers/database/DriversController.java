@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.transportcompany.application.models.database.Driver;
 import ru.transportcompany.application.models.database.Schedule;
 import ru.transportcompany.application.repositories.DriverRepository;
+import ru.transportcompany.application.repositories.ScheduleRepository;
 import ru.transportcompany.application.services.ScheduleService;
 
 import java.util.Comparator;
@@ -20,6 +21,7 @@ public class DriversController
 {
     DriverRepository driverRepository;
     ScheduleService scheduleService;
+    ScheduleRepository scheduleRepository;
 
     @GetMapping("/add")
     public String getAddDriverPage(Model model)
@@ -86,5 +88,25 @@ public class DriversController
         model.addAttribute("driver", driver);
         model.addAttribute("schedules", schedules);
         return "drivers/schedule";
+    }
+
+    @GetMapping("/checkInvalidFlights")
+    public String checkInvalidFlights(Model model)
+    {
+        List<Driver> invalidFlights = driverRepository.findAll().stream()
+                .filter(driver -> scheduleRepository.findAll().stream()
+                        .map(Schedule::getOnlyDate)
+                        .distinct()
+                        .anyMatch(date -> scheduleRepository.findAll().stream()
+                                .filter(schedule -> schedule.getTransport().getDriver().getId().equals(driver.getId()))
+                                .filter(schedule -> schedule.getOnlyDate().equals(date))
+                                .count() > 3))      // проверяем, что у водителя более 3 рейсов в день
+
+
+                .collect(Collectors.toList());
+
+        model.addAttribute("drivers", invalidFlights);
+
+        return "drivers/invalid_flights";
     }
 }

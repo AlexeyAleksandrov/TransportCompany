@@ -34,10 +34,9 @@
                             <th class="td_input">Редактировать</th>
                         </tr>
                         <tr th:each="s: ${schedules}">
-                            <!--/*@thymesVar id="r" type="ru.transportcompany.application.models.database.Route"*/-->
                             <td th:text="${s.route.routeNumber}" class="td_input">Номер маршрута</td>
-                            <td th:text="${s.route.routeStartPoint.pointName}" class="td_input">Точка отправления</td>
-                            <td th:text="${s.route.routeFinishPoint.pointName}" class="td_input">Точка прибытия</td>
+                            <td th:text="${s.direction == 0 ? s.route.routeStartPoint.pointName : s.route.routeFinishPoint.pointName}" class="td_input">Точка отправления</td>
+                            <td th:text="${s.direction == 0 ? s.route.routeFinishPoint.pointName : s.route.routeStartPoint.pointName}" class="td_input">Точка прибытия</td>
                             <td th:text="${s.timeStart.toString()}" class="td_input">Время отправления</td>
                             <td th:text="${s.route.routeInterval.intervalName}" class="td_input">Интервал движения</td>
                             <td th:text="${s.route.costForAdult + ' рублей'}" class="td_input">Стоимость для взрослого</td>

@@ -33,6 +33,9 @@ public class Schedule
     @Column(name = "date")
     private Date date;
 
+    @Column(name = "direction")
+    private Integer direction;
+
     public String get_dd_MMMM_yyyy_FormatDate()
     {
         return get_dd_MMMM_yyyy_FormatDate(date);
@@ -53,6 +56,13 @@ public class Schedule
     {
         date.setHours(timeStart.getHour());
         date.setMinutes(timeStart.getMinute());
+        return date;
+    }
+
+    public Date getOnlyDate()
+    {
+        date.setHours(0);
+        date.setMinutes(0);
         return date;
     }
 }

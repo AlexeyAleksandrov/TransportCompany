@@ -8,31 +8,22 @@
     <div class="clear"></div>
 
     <div class="card input_block_big" th:object="${drivers}">
-        <h2 class="input_header">Список водителей</h2>
+        <h2 class="input_header">Список водителей с недопустимыми рейсами</h2>
         <div class="card-header">
             <table th:if="${#lists.size(drivers) > 0}">
                 <tr>
                     <th class="td_input">Имя</th>
                     <th class="td_input">Фамилия</th>
                     <th class="td_input">Отчество</th>
-                    <th class="td_input">Расписание</th>
                 </tr>
                 <!--/*@thymesVar id="d" type="ru.transportcompany.application.models.database.Driver"*/-->
                 <tr th:each="d : ${drivers}">
                     <td th:text="${d.lastName}" class="td_input"></td>
                     <td th:text="${d.firstName}" class="td_input"></td>
                     <td th:text="${d.patronymic}" class="td_input"></td>
-                    <td><a th:href="@{'/drivers/schedule/' + ${d.id}}" class="btn btn-primary">Расписание</a></td>
                 </tr>
             </table>
-            <p th:if="${#lists.size(drivers) == 0}">На предприятии отсутствуют водители!</p>
-        </div>
-    </div>
-
-    <div class="card input_block_big" th:object="${drivers}">
-        <h2 class="input_header">Недопустимые рейсы</h2>
-        <div class="card-header">
-            <a th:href="@{/drivers/checkInvalidFlights/}" class="btn btn-primary">Проверить недопустимые рейсы</a>
+            <p th:if="${#lists.size(drivers) == 0}">У водителей отсутствуют недопустимые рейсы!</p>
         </div>
     </div>
 </main>
