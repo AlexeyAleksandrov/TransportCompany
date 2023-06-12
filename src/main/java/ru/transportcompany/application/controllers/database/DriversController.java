@@ -1,6 +1,7 @@
 package ru.transportcompany.application.controllers.database;
 
 import lombok.AllArgsConstructor;
+import org.apache.el.stream.Stream;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import ru.transportcompany.application.services.ScheduleService;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 @RequestMapping(value = "/drivers")
@@ -100,9 +102,13 @@ public class DriversController
                         .anyMatch(date -> scheduleRepository.findAll().stream()
                                 .filter(schedule -> schedule.getTransport().getDriver().getId().equals(driver.getId()))
                                 .filter(schedule -> schedule.getOnlyDate().equals(date))
-                                .count() > 3))      // проверяем, что у водителя более 3 рейсов в день
-
-
+                                .count() > 3    // проверяем, что у водителя более 3 рейсов в день
+                                || (scheduleRepository.findAll().stream()
+                                .filter(schedule -> schedule.getTransport().getDriver().getId().equals(driver.getId()))
+                                .filter(schedule -> schedule.getOnlyDate().equals(date))
+                                .flatMapToInt(schedule -> IntStream.of(schedule.getRoute().getRouteTime()))
+                                .sum() / 60) > 6    // проверяем, что у водителя общее время в пути более 6 часов
+                        ))
                 .collect(Collectors.toList());
 
         model.addAttribute("drivers", invalidFlights);
