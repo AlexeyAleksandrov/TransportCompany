@@ -59,6 +59,9 @@ public class ScheduleController
 
             // маршруты
             schedules = scheduleRepository.findAllByDate(searchDate);
+            schedules.sort((a, b) -> a.getRoute().getRouteNumber().equals(b.getRoute().getRouteNumber()) ? a.getTimeStart().compareTo(b.getTimeStart()) : a.getRoute().getRouteNumber().compareTo(b.getRoute().getRouteNumber()));  // сортируем по маршрутам и времени отправления
+
+            // маршруты по которым нет рейсов
             List<Route> routesForDay = routesService.getRoutesForDate(searchDate);
             List<Schedule> finalSchedules = schedules;
             List<Route> notFlightRoutesForDay = routesForDay.stream()
