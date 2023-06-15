@@ -16,6 +16,9 @@
 </div>
 <div th:fragment="nav">
     <nav th:if="${is_auth}">
+        <!--/*@thymesVar id="user" type="ru.transportcompany.application.models.users.User"*/-->
+        <!--/*@thymesVar id="Role" type="ru.transportcompany.application.models.users.Role"*/-->
+        <!--th:if="${user.getRole() == Role.ADMIN}" -->
         <ul id="navbar">
             <li><button class="dropbtn" onclick="location.href='/'">Главная</button></li>
             <li th:replace="fragments/navbar::element (${'Водители'}, @{/drivers/show}, @{/drivers/add}, @{/drivers/edit}, @{/drivers/delete})"></li>
@@ -25,9 +28,10 @@
             <li th:replace="fragments/navbar::element (${'Маршруты'}, @{/routes/show}, @{/routes/add}, @{/routes/edit}, @{/routes/delete})"></li>
             <li th:replace="fragments/navbar::element (${'Расписание'}, @{/schedule/show}, @{/schedule/add}, @{/schedule/edit}, @{/schedule/delete})"></li>
             <li th:replace="fragments/navbar::element (${'Билеты'}, @{/tickets/show}, @{/tickets/add}, @{/tickets/edit}, @{/tickets/delete})"></li>
-<!--            <li th:replace="fragments/navbar::element (${'Пользователи'}, @{users/show}, @{users/add}, @{users/edit}, @{users/delete})"></li>-->
+            <!--            <li th:replace="fragments/navbar::element (${'Пользователи'}, @{users/show}, @{users/add}, @{users/edit}, @{users/delete})"></li>-->
             <li><button class="dropbtn" onclick="location.href='/schedule/download'">Скачать расписание</button></li>
         </ul>
+
     </nav>
 </div>
 </body>

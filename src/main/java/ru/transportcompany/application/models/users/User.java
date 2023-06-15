@@ -32,4 +32,8 @@ public class User
     @Column(name = "status")
     @Enumerated(value = EnumType.STRING)
     private Status status = Status.ACTIVE;
+
+    @Column(name = "role")
+    @Enumerated(value = EnumType.STRING)
+    private Role role = Role.USER;
 }
