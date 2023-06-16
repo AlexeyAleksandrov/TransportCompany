@@ -78,8 +78,11 @@ public class ScheduleService
     {
         return scheduleRepository.findAll().stream()
                 .filter((schedule -> {
-                    long diffInMillies = schedule.getDate().getTime() - searchDate.getTime();
+                    long diffInMillies = schedule.getOnlyDate().getTime() - searchDate.getTime();
                     long diffInDays = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+
+//                    System.out.println("searchDay - " + searchDate + " schedule - " + schedule.getDate() + " result - " + (diffInDays < 7 && (searchDate.compareTo(schedule.getDate()) <= 0)));
+
                     return (diffInDays < 7 && (searchDate.compareTo(schedule.getDate()) <= 0));
 
 //                    LocalDateTime searchDateTime = LocalDateTime.of(searchDate.getYear(), searchDate.getMonth(), searchDate.getDate(), 0, 0);

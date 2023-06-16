@@ -16,6 +16,7 @@
                 <input type="submit" value="Выбрать" class="btn btn-primary">
             </form>
         </div>
+        <h3 style="color: firebrick">В файл записываются только те рейсы, на которые продано более 50% билетов!</h3>
     </div>
     <div th:if="${date_error}" class="card input_block_big">
         <p th:text="${date_error}"></p>
