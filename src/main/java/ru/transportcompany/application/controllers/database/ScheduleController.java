@@ -194,10 +194,12 @@ public class ScheduleController
         return "schedule/edit_chose";
     }
 
-    @GetMapping(value = "/edit/{id}")
-    public String editScheduleItemPage(@PathVariable Long id, @ModelAttribute("date") Date date, Model model)
+    @GetMapping(value = "/edit/{date}/{id}")
+    public String editScheduleItemPage(@PathVariable Long id, @PathVariable("date") String edit_date, Model model) throws ParseException
     {
         // формируем дату
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = dateFormat.parse(edit_date);
         SimpleDateFormat outputDateFormat = new SimpleDateFormat("dd MMMM yyyy");
         model.addAttribute("search_date", outputDateFormat.format(date));
 
@@ -212,6 +214,9 @@ public class ScheduleController
         // транспорт
         List<Transport> transports = transportRepository.findAll();
         model.addAttribute("transports", transports);
+
+        // дата
+        model.addAttribute("date", edit_date);
 
         return "schedule/edit_item";
     }

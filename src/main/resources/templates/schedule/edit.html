@@ -12,7 +12,7 @@
         <h2 class="input_header">Изменение расписания транспорта</h2>
         <div class="card-header">
             <form th:action="@{/schedule/edit/}" th:method="POST">
-                <label>Выберите дату:<input type="date" id="date" name="date"></label>
+                <label>Выберите дату:<input type="date" id="date" name="date" th:value="${date}"></label>
                 <input type="submit" value="Выбрать" class="btn btn-primary">
             </form>
         </div>
